@@ -11,7 +11,7 @@ import Link from "next/link";
 export default function Navbar(){
     return (
         <div className="flex items-center py-2 w-full md:px-8 px-2">
-            <h2 className="md:text-4xl font-semibold">Educator</h2>
+            <h2 className="md:text-4xl font-semibold">Edducator</h2>
             
             <SearchBar />
 
