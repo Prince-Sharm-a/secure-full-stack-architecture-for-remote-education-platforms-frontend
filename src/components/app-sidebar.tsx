@@ -53,10 +53,10 @@ const items: SidebarItem[] = [
 export function AppSidebar() {
   return (
     <Sidebar>
-      <SidebarHeader>Shopy</SidebarHeader>
+      <SidebarHeader>Edducator</SidebarHeader>
       <SidebarContent>
         <SidebarGroup >
-            <SidebarGroupLabel>Application</SidebarGroupLabel>
+            {/* <SidebarGroupLabel>Application</SidebarGroupLabel> */}
             <SidebarGroupContent>
                 <SidebarMenu>
                     {

@@ -42,7 +42,7 @@ export default function RootLayout({
           <AppSidebar />
           <div className=" w-full">
             <nav className="w-full flex flex-row">
-            <SidebarTrigger className="cursor-pointer my-3 ml-1 md:hidden" />
+            <SidebarTrigger className="cursor-pointer my-3 ml-1 lg:hidden" />
               <Navbar />
             </nav>
             <main className="px-2 w-full">
