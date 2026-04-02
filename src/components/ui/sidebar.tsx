@@ -207,7 +207,7 @@ function Sidebar({
 
   return (
     <div
-      className="group peer text-sidebar-foreground hidden"
+      className="group peer text-sidebar-foreground hidden not-lg:block"
       data-state={state}
       data-collapsible={state === "collapsed" ? collapsible : ""}
       data-variant={variant}
@@ -273,7 +273,7 @@ function SidebarTrigger({
       }}
       {...props}
     >
-      <PanelLeftIcon className="size-5" />
+      <PanelLeftIcon className="size-5 md:size-6" />
       <span className="sr-only">Toggle Sidebar</span>
     </Button>
   )

@@ -10,13 +10,13 @@ import Link from "next/link";
 
 export default function Navbar(){
     return (
-        <div className="flex items-center py-2 w-full md:px-8 px-2">
-            <h2 className="md:text-4xl font-semibold">Edducator</h2>
+        <div className="flex items-center py-2 w-full px-2">
+            <h2 className="md:text-4xl not-sm:text-xl font-semibold">Edducator</h2>
             
             <SearchBar />
 
             <div className="ml-auto flex gap-3">
-                <div className="mr-2 hidden md:block">
+                <div className="mr-2 hidden lg:block">
                     <ModeToggle />
                 </div>
             </div>
@@ -36,13 +36,13 @@ export function SearchBar(){
         // console.log(data);
         if(!data.search.trim()) return;
 
-        route.push(`/product?q=${data.search.trim().replaceAll(' ','+')}`)
+        route.push(`/course?q=${data.search.trim().replaceAll(' ','+')}`)
     }
 
     return(
-        <div className=" ml-[5%] md:ml-[10%]">
+        <div className="mx-3 md:mx-8">
             <form onSubmit={handleSubmit(handleSearch)}>
-                <input {...register('search')} className="bg-transparent lg:w-100 rounded-md outline-none shadow shadow-zinc-700 p-1 flex-wrap md:p-2 md:text-xl" placeholder="Search for Products" type="text" />
+                <input {...register('search')} className="bg-transparent not-sm:w-40 md:w-80 lg:w-100 rounded-md outline-none shadow shadow-zinc-700 py-1 px-2 md:py-2 md:px-4 flex-wrap  md:text-xl" placeholder="Search Courses...." type="text" />
             </form>
         </div>
     )
