@@ -1,7 +1,7 @@
 import HomeSearhBar from "@/components/homePageSearchBar";
 import { Button } from "@/components/ui/button";
 import Image from "next/image";
-import LoginModal from "./LoginModal";
+import LoginModal from "../../components/LoginModal";
 
 export default function Home() {
   return (

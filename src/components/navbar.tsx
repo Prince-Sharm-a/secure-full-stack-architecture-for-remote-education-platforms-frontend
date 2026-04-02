@@ -6,7 +6,7 @@ import { useForm } from "react-hook-form";
 import { Search } from "lucide-react";
 import { Button } from "./ui/button";
 import Link from "next/link";
-import LoginModal from "@/app/(public)/LoginModal";
+import LoginModal from "@/components/LoginModal";
 
 
 export default function Navbar(){
