@@ -6,6 +6,7 @@ import { useForm } from "react-hook-form";
 import { ShoppingCart } from "lucide-react";
 import { Button } from "./ui/button";
 import Link from "next/link";
+import LoginModal from "@/app/(public)/LoginModal";
 
 
 export default function Navbar(){
@@ -19,6 +20,7 @@ export default function Navbar(){
                 <div className="mr-2 hidden lg:block">
                     <ModeToggle />
                 </div>
+                <LoginModal/>
             </div>
         </div>
     )

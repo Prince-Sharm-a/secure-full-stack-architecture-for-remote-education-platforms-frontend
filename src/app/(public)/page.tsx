@@ -1,5 +1,6 @@
 import { Button } from "@/components/ui/button";
 import Image from "next/image";
+import LoginModal from "./LoginModal";
 
 export default function Home() {
   return (
@@ -21,5 +22,6 @@ export default function Home() {
         <input  />
       </div>
     </div>
+    
   );
 }
