@@ -16,11 +16,13 @@ export default function Navbar(){
             
             <SearchBar />
 
-            <div className="ml-auto flex gap-3">
+            <div className="ml-auto flex">
                 <div className="mr-2 hidden lg:block">
                     <ModeToggle />
                 </div>
-                <LoginModal/>
+                <div className="hidden lg:block">
+                    <LoginModal />
+                </div>
             </div>
         </div>
     )

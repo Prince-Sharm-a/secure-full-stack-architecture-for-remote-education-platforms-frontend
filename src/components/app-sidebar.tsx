@@ -13,6 +13,7 @@ import {
 import { Calendar, Home, Inbox, Search, Settings } from "lucide-react"
 import Link from "next/link"
 import { ModeToggle } from "./ui/darkModeToggle";
+import LoginModal from "./LoginModal";
 
 type SidebarItem = {
     title: string;
@@ -57,6 +58,9 @@ export function AppSidebar() {
       <SidebarContent>
         <SidebarGroup >
             {/* <SidebarGroupLabel>Application</SidebarGroupLabel> */}
+            <SidebarGroupLabel className="justify-center mb-4">
+              <LoginModal />
+            </SidebarGroupLabel>
             <SidebarGroupContent>
                 <SidebarMenu>
                     {

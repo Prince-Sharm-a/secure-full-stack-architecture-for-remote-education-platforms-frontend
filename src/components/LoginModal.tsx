@@ -1,6 +1,8 @@
 "use client";
 import { Button } from "@/components/ui/button";
 import { useState } from "react";
+import GoogleIcon from "./icon/googleIcon";
+import Modal from "./model";
 
 
 export default function LoginModal() {
@@ -12,31 +14,33 @@ export default function LoginModal() {
       <Button
         variant={"outline"}
         onClick={() => setOpen(true)}
-        className="px-4 py-2 rounded-md"
+        className="px-4 py-2 rounded-md cursor-pointer"
       >
         Sign in
       </Button>
 
       {/* Modal */}
       {open && (
-        <div className="fixed inset-0 bg-black/50 flex justify-center items-center">
-          
-          <div className=" dark:bg-black bg-white w-[350px] p-6 rounded-xl shadow-lg relative">
+        <Modal className="md:w-95 lg:w-150" setOpen={setOpen}>
 
             {/* Close Button */}
-            <button
+            <Button
               onClick={() => setOpen(false)}
-              className="absolute top-2 right-2 text-gray-500"
+              className="absolute top-2 right-2 text-gray-500 cursor-pointer"
+              variant={"outline"}
             >
               ✕
-            </button>
+            </Button>
 
             {/* Heading */}
             <h2 className="text-2xl font-bold mb-4 text-center">
               Log in
             </h2>
 
+            <Button className="font-bold mb-4 w-full cursor-pointer"><GoogleIcon /> Continue with Google</Button>
+
             {/* Email */}
+            <form onSubmit={()=>alert("Login")}>
             <input
               type="text"
               placeholder="Username or Email"
@@ -62,11 +66,11 @@ export default function LoginModal() {
             </div>
 
             {/* Button */}
-            <Button variant={"outline"} className="w-full py-2 rounded-md">
+            <Button variant={"outline"} className="w-full py-2 rounded-md cursor-pointer">
               Sign In
             </Button>
-          </div>
-        </div>
+            </form>
+        </Modal>
       )}
     </>
   );
