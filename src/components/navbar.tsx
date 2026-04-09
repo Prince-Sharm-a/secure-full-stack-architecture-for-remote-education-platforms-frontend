@@ -13,6 +13,7 @@ import Avatar from "./avatar";
 
 export default function Navbar(){
     const [isLogin, setIsLogin] = useState(true);
+    
     return (
         <div className="flex items-center py-2 w-full px-2">
             <SidebarTrigger className="cursor-pointer lg:hidden" />
@@ -20,7 +21,7 @@ export default function Navbar(){
             
             <SearchBar />
 
-            <div className="ml-auto flex mr-5 ">
+            <div className="ml-auto flex mr-5">
                 <div className="mr-2 hidden lg:block">
                     <ModeToggle />
                 </div>

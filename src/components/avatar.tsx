@@ -13,7 +13,7 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu"
 
-export function DropdownMenuIcons() {
+export function DropdownMenuAvatar() {
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
@@ -48,7 +48,7 @@ export function DropdownMenuIcons() {
 export default function Avatar(){
     return(
         <>
-        <DropdownMenu />
+        <DropdownMenuAvatar />
         </>
     )
 }
