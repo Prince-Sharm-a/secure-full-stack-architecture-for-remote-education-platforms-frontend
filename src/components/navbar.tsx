@@ -15,7 +15,7 @@ export default function Navbar(){
     const [isLogin, setIsLogin] = useState(true);
 
     return (
-        <div className="flex items-center py-2 w-full px-2 bg-mist-400/50 dark:bg-zinc-800/50">
+        <div className="flex items-center py-2 w-full px-2 bg-mist-200/90 dark:bg-zinc-900/90">
             <SidebarTrigger className="cursor-pointer lg:hidden" />
             <h2 className="md:text-4xl not-sm:text-xl font-semibold">Edducator</h2>
             
@@ -59,7 +59,7 @@ export function SearchBar(){
                 </Button>
             </div>
             <form onSubmit={handleSubmit(handleSearch)} className="not-md:hidden">
-                <input {...register('search')} className="bg-transparent not-sm:w-40 md:w-80 lg:w-100 rounded-md outline-none shadow shadow-zinc-700 py-1 px-2 md:py-2 md:px-4 flex-wrap  md:text-xl" placeholder="Search Courses...." type="text" />
+                <input {...register('search')} className="bg-mist-100 dark:bg-zinc-950 not-sm:w-40 md:w-80 lg:w-100 rounded-md outline-none shadow shadow-zinc-700 py-1 px-2 md:py-2 md:px-4 flex-wrap  md:text-xl" placeholder="Search Courses...." type="text" />
             </form>
         </div>
     )
