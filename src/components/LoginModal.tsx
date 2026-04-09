@@ -1,8 +1,8 @@
 "use client";
 import { Button } from "@/components/ui/button";
 import { useState } from "react";
-import GoogleIcon from "./icon/googleIcon";
 import Modal from "./model";
+import { GoogleIcon } from "./icon";
 
 
 export default function LoginModal() {

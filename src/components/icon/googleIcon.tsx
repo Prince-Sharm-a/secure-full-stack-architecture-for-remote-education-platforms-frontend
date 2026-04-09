@@ -1,12 +1,10 @@
-import * as React from "react";
-const GoogleIcon = (props: React.SVGProps<SVGSVGElement>) => (
+const GoogleIcon = ({width="12px", height="12px"}: {width?:string | number, height?:string | number}) => (
   <svg
-    width="12px"
-    height="12px"
+    width={width}
+    height={height}
     viewBox="0 0 16 16"
     xmlns="http://www.w3.org/2000/svg"
     fill="none"
-    {...props}
   >
     <path
       fill="#4285F4"

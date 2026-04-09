@@ -1,27 +1,34 @@
 "use client"
 import { useRouter } from "next/navigation";
 import { ModeToggle } from "./ui/darkModeToggle";
-import { ChangeEvent, FormEvent, FormEventHandler } from "react";
+import { ChangeEvent, FormEvent, FormEventHandler, useState } from "react";
 import { useForm } from "react-hook-form";
 import { Search } from "lucide-react";
 import { Button } from "./ui/button";
 import Link from "next/link";
 import LoginModal from "@/components/LoginModal";
+import { SidebarTrigger } from "./ui/sidebar";
+import Avatar from "./avatar";
 
 
 export default function Navbar(){
+    const [isLogin, setIsLogin] = useState(true);
     return (
         <div className="flex items-center py-2 w-full px-2">
+            <SidebarTrigger className="cursor-pointer lg:hidden" />
             <h2 className="md:text-4xl not-sm:text-xl font-semibold">Edducator</h2>
             
             <SearchBar />
 
-            <div className="ml-auto flex">
+            <div className="ml-auto flex mr-5 ">
                 <div className="mr-2 hidden lg:block">
                     <ModeToggle />
                 </div>
                 <div className="hidden lg:block">
-                    <LoginModal />
+                    {!isLogin && <LoginModal />}
+                </div>
+                <div>
+                    {isLogin && <Avatar />}
                 </div>
             </div>
         </div>

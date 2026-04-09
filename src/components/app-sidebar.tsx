@@ -54,7 +54,7 @@ const items: SidebarItem[] = [
 export function AppSidebar() {
   return (
     <Sidebar>
-      <SidebarHeader>Edducator</SidebarHeader>
+      <SidebarHeader className="font-bold">Edducator</SidebarHeader>
       <SidebarContent>
         <SidebarGroup >
             {/* <SidebarGroupLabel>Application</SidebarGroupLabel> */}

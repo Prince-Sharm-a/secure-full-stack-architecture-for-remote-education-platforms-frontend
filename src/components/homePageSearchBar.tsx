@@ -4,7 +4,7 @@ import { useEffect, useState } from "react";
 
 type Placeholder = string[]
 
-export default function HomeSearhBar(){
+export default function HomeSearchBar(){
     const placeholder : Placeholder = [
         "Learn Python, Java, C++",
         "Complete Interview Preparation",
