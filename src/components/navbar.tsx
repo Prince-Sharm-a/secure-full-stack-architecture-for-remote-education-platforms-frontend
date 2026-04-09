@@ -13,9 +13,9 @@ import Avatar from "./avatar";
 
 export default function Navbar(){
     const [isLogin, setIsLogin] = useState(true);
-    
+
     return (
-        <div className="flex items-center py-2 w-full px-2">
+        <div className="flex items-center py-2 w-full px-2 bg-zinc-700/50">
             <SidebarTrigger className="cursor-pointer lg:hidden" />
             <h2 className="md:text-4xl not-sm:text-xl font-semibold">Edducator</h2>
             
