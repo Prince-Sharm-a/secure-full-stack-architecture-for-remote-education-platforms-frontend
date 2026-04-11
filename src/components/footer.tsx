@@ -4,7 +4,7 @@ import { FacebookIcon, InstagramIcon, LinkedinIcon, TwitterIcon, YoutubeIcon } f
 export default function Footer(){
     return (
         <>
-        <div className="px-12 py-8 border-t border-t-zinc-500">
+        <div className="px-6 py-4 md:px-12 md:py-8 border-t border-t-zinc-500">
            <div className="mb-2">
                 <div className="mb-2">
                     <h3 className="text-2xl font-bold">Edducator</h3>

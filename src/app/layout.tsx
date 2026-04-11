@@ -45,7 +45,7 @@ export default function RootLayout({
             <nav className="w-full flex flex-row sticky top-0">
               <Navbar />
             </nav>
-            <main className="px-2 w-full ">
+            <main className="px-2 w-full min-h-117">
               {children}
             </main>
             <footer className="w-full">

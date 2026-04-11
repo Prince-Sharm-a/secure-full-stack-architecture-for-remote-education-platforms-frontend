@@ -12,7 +12,7 @@ import Avatar from "./avatar";
 
 
 export default function Navbar(){
-    const [isLogin, setIsLogin] = useState(true);
+    const [isLogin, setIsLogin] = useState(false);
 
     return (
         <div className="flex items-center py-2 w-full px-2 bg-mist-200/90 dark:bg-zinc-900/90">
