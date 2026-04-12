@@ -1,14 +1,16 @@
 import { ChildrenType } from "@/lib/type";
-import { createContext,useContext } from "react"
+import { createContext,useContext, useState } from "react"
 
 const AuthContext = createContext<any>(null);
 
-export const AuthProvider = ({ children,  } : ChildrenType) => {
+export const AuthProvider = ({ children } : ChildrenType) => {
+    const [openLogin, setOpenLogin] = useState(false);
+    
     return (
-        // <AuthProvider.Provider value >
-        //     {children}
-        // </AuthProvider.Provider>
+        <AuthContext.Provider value={{ openLogin, setOpenLogin }} >
+             {children}
+        </AuthContext.Provider>
     )
 }
 
-export const useAuth = useContext(AuthContext);
+export const useAuth = () => useContext(AuthContext);
