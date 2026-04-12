@@ -12,6 +12,8 @@ export async function middleware(req: NextRequest){
     const response = NextResponse.next();
     const matchedRoute = routeAccess.find(route => pathname.startsWith(route.path));
     response.cookies.set("x-log",pathname || "no data",{path: "/"});
+    response.cookies.set("x-role","unauthorized");
+    response.cookies.set("x-auth","false");
 
     try{
         const res = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/api/v1/user/profile`,{
