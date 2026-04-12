@@ -13,6 +13,7 @@ import {
 import { Calendar, Home, Inbox, Search, Settings } from "lucide-react"
 import Link from "next/link"
 import { ModeToggle } from "./ui/darkModeToggle";
+import LoginModal from "./LoginModal";
 
 type SidebarItem = {
     title: string;
@@ -53,10 +54,13 @@ const items: SidebarItem[] = [
 export function AppSidebar() {
   return (
     <Sidebar>
-      <SidebarHeader>Edducator</SidebarHeader>
+      <SidebarHeader className="font-bold text-xl md:text-3xl">Edducator</SidebarHeader>
       <SidebarContent>
         <SidebarGroup >
             {/* <SidebarGroupLabel>Application</SidebarGroupLabel> */}
+            <SidebarGroupLabel className="justify-center mb-4">
+              <LoginModal />
+            </SidebarGroupLabel>
             <SidebarGroupContent>
                 <SidebarMenu>
                     {

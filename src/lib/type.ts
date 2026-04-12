@@ -1,10 +1,10 @@
-export type Params = {
+export type ParamsType = {
     params : {
         slug : string
     }
 }
 
-export type SearchParams = {
+export type SearchParamsType = {
     searchParams : {
         q?: string
     }
