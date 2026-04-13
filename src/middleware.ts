@@ -12,6 +12,7 @@ export async function middleware(req: NextRequest){
     const response = NextResponse.next();
     const matchedRoute = routeAccess.find(route => pathname.startsWith(route.path));
     response.cookies.set("x-log",pathname || "no data",{path: "/"});
+    response.cookies.set("x-auth","false");
 
     let data;
     try{
