@@ -11,8 +11,8 @@ import { SidebarTrigger } from "./ui/sidebar";
 import Avatar from "./avatar";
 
 
-export default function Navbar({ isAuth, isRole }: { isAuth?: string, isRole?: string }){
-    const [isLogin, setIsLogin] = useState(isAuth === "false" ? false : true);
+export default function Navbar({ isAuth, isRole }: { isAuth?: string | null, isRole?: string }){
+    const [isLogin, setIsLogin] = useState();
 
     return (
         <div className="flex items-center py-2 w-full px-2 bg-mist-200/90 dark:bg-zinc-900/90">

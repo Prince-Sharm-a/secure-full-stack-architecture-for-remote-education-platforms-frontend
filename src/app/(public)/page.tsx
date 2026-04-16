@@ -1,8 +1,10 @@
 import HomeSearchBar from "@/components/homePageSearchBar";
 import { Button } from "@/components/ui/button";
 import Image from "next/image";
+import Link from "next/link";
 
 export default function Home() {
+  
   return (
     <div className="">
       <div className="flex flex-nowrap justify-center items-center flex-col my-15">
@@ -32,7 +34,9 @@ export default function Home() {
                 </span>
               </div>
               <div className="my-8">
+              <Link href={"/teacher/courses"} prefetch={false}>
                 <Button variant={"outline"} className="w-50 h-11 font-bold cursor-pointer">Explore Now</Button>
+              </Link>
               </div>
             </div>
             <div>
@@ -68,10 +72,18 @@ export default function Home() {
           <h4 className="font-bold text-2xl">Must Explore</h4>
         </div>
         <div className="flex px-4 py-3 md:px-7 md:py-6 not-md:grid lg:w-260 md:w-220 w-80 not-md:grid-cols-2 lg:gap-x-20 md:gap-x-10 gap-y-6 gap-x-10">
-          <div className="h-12 w-35 md:h-20 md:w-50 lg:w-70 rounded-2xl border border-zinc-400"></div>
-          <div className="h-12 w-35 md:h-20 md:w-50 lg:w-70 rounded-2xl border border-zinc-400"></div>
-          <div className="h-12 w-35 md:h-20 md:w-50 lg:w-70 rounded-2xl border border-zinc-400"></div>
-          <div className="h-12 w-35 md:h-20 md:w-50 lg:w-70 rounded-2xl border border-zinc-400"></div>
+          <Link href={"#"} className="h-12 w-35 md:h-20 md:w-50 lg:w-70 rounded-2xl flex justify-center items-center bg-emerald-300 hover:bg-emerald-300/50">
+            <h3 className="font-bold">Hire With Us</h3>
+          </Link>
+          <Link href={"#"} className="h-12 w-35 md:h-20 md:w-50 lg:w-70 rounded-2xl flex justify-center items-center bg-emerald-300 hover:bg-emerald-300/50">
+            <h3 className="font-bold">Jobs For You</h3>
+          </Link>
+          <Link href={"#"} className="h-12 w-35 md:h-20 md:w-50 lg:w-70 rounded-2xl flex justify-center items-center bg-emerald-300 hover:bg-emerald-300/50">
+            <h3 className="font-bold">Advertise With Us</h3>
+          </Link>
+          <Link href={"#"} className="h-12 w-35 md:h-20 md:w-50 lg:w-70 rounded-2xl flex justify-center items-center bg-emerald-300 hover:bg-emerald-300/50">
+            <h3 className="font-bold">Training Programs</h3>
+          </Link>
         </div>
       </div>
       <div className="flex flex-nowrap justify-center items-center flex-col my-15">
@@ -79,12 +91,24 @@ export default function Home() {
           <h4 className="font-bold text-2xl">Explore</h4>
         </div>
         <div className="px-4 py-3 md:px-7 md:py-6 lg:w-280 md:w-200 not-sm:w-80 grid grid-cols-2 gap-x-10 gap-y-5 md:gap-x-18 md:gap-y-8 lg:gap-x-25 lg:gap-y-10">
-          <div className="lg:h-40 lg:w-120 md:h-25 md:w-90 h-15 w-35 rounded-2xl border border-zinc-400"></div>
-          <div className="lg:h-40 lg:w-120 md:h-25 md:w-90 h-15 w-35 rounded-2xl border border-zinc-400"></div>
-          <div className="lg:h-40 lg:w-120 md:h-25 md:w-90 h-15 w-35 rounded-2xl border border-zinc-400"></div>
-          <div className="lg:h-40 lg:w-120 md:h-25 md:w-90 h-15 w-35 rounded-2xl border border-zinc-400"></div>
-          <div className="lg:h-40 lg:w-120 md:h-25 md:w-90 h-15 w-35 rounded-2xl border border-zinc-400"></div>
-          <div className="lg:h-40 lg:w-120 md:h-25 md:w-90 h-15 w-35 rounded-2xl border border-zinc-400"></div>
+          <Link href={"#"} className="flex justify-center items-center p-2 lg:h-40 lg:w-120 md:h-25 md:w-90 h-15 w-35 rounded-2xl bg-red-200 hover:bg-red-200/50" >
+            <h3 className="text-[2.5vw] font-bold">NEET</h3>
+          </Link>
+          <Link href={"#"} className="flex justify-center items-center p-2 lg:h-40 lg:w-120 md:h-25 md:w-90 h-15 w-35 rounded-2xl bg-green-200 hover:bg-green-200/50" >
+            <h3 className="text-[2.5vw] font-bold">JEE</h3>
+          </Link>
+          <Link href={"#"} className="flex justify-center items-center p-2 lg:h-40 lg:w-120 md:h-25 md:w-90 h-15 w-35 rounded-2xl bg-blue-200 hover:bg-blue-200/50" >
+            <h3 className="text-[2.5vw] font-bold">DSA</h3>
+          </Link>
+          <Link href={"#"} className="flex justify-center items-center p-2 lg:h-40 lg:w-120 md:h-25 md:w-90 h-15 w-35 rounded-2xl bg-fuchsia-200 hover:bg-fuchsia-200/50" >
+            <h3 className="text-[2.5vw] font-bold">System Design</h3>
+          </Link>
+          <Link href={"#"} className="flex justify-center items-center p-2 lg:h-40 lg:w-120 md:h-25 md:w-90 h-15 w-35 rounded-2xl bg-orange-200 hover:bg-orange-200/50" >
+            <h3 className="text-[2.5vw] font-bold">Class 10th</h3>
+          </Link>
+          <Link href={"#"} className="flex justify-center items-center p-2 lg:h-40 lg:w-120 md:h-25 md:w-90 h-15 w-35 rounded-2xl bg-cyan-200 hover:bg-cyan-200/50" >
+            <h3 className="text-[2.5vw] font-bold">Class 12th</h3>
+          </Link>
         </div>
       </div>
     </div>

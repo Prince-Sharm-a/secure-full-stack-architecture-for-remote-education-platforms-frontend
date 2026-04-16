@@ -1,6 +1,6 @@
 export default function PublicCourses(){
     const course = [{},{},{},{},{},{},{},{},{},{},{},{}];
-    console.log(course.length);
+    // console.log(course.length);
     return (
         <div className="justify-items-center my-10 not-md:my-5">
             <div className="grid lg:grid-cols-4 w-11/12 md:grid-cols-3 grid-cols-2 justify-items-center lg:space-y-10 md:space-y-6">

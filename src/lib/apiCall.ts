@@ -1,28 +1,48 @@
-import { cookies } from "next/headers";
-
 const BASE_URL = process.env.NEXT_PUBLIC_BACKEND_URL + '/api/v1'
 
+function getToken() {
+  if (typeof window !== "undefined") {
+    return localStorage.getItem("token") || "";
+  }
+  return "";
+}
+
 function getCookieHeader(){
-    return cookies().toString();
+    if (typeof window === "undefined") {
+        try {
+            const { cookies } = require("next/headers");
+            return cookies().toString();
+        } catch {
+            return "";
+        }
+    }
+    return "";
 }
 
 async function handleResponse(res: Response) {
-    if(!res.ok){
-        const error = await res.json().catch(() => {});
-        throw {
-            status: res.status,
-            message: error.message || "Something went wrong",
-        };
-    }
+    try{
+        if(!res.ok){
+            const error = await res.json().catch(() => {});
+            throw {
+                status: res.status,
+                message: error.message || "Something went wrong",
+            };
+        }
 
-    return res.json();
+        return res.json();
+    } catch (err: any){
+      console.log(err?.message);
+    }
 }
 
 export async function getAPIClient(api: string, params ?: Record<string,any>) {
     const query = params ? `?${new URLSearchParams(params).toString()}` : "";
     
-    const res = await fetch(`${BASE_URL}${api}`, {
+    const res = await fetch(`${BASE_URL}${api}${query}`, {
         credentials: "include",
+        headers: {
+            "Authorization": `Bearer ${getToken()}`,
+        }
     });
 
     return res.json();
@@ -34,7 +54,8 @@ export async function getAPI(api : string,params ?: Record<string,any>){
     const data = await fetch(BASE_URL+api+query,{
         method:"GET",
         headers: {
-            cookie: getCookieHeader()
+            "Authorization": `Bearer ${getToken()}`,
+            cookie: getCookieHeader()            
         },        
         cache: "no-store",
     });
@@ -46,6 +67,7 @@ export async function postAPI(api : string, payload : object){
         method: "POST",
         headers: {
             "Content-Type": "application/json",
+            "Authorization": `Bearer ${getToken()}`,
             cookie: getCookieHeader(),
         },
         body: JSON.stringify(payload),
@@ -58,6 +80,7 @@ export async function putAPI(api : string, payload : object){
         method: "PUT",
         headers: {
             "Content-Type": "application/json",
+            "Authorization": `Bearer ${getToken()}`,
             cookie: getCookieHeader(),
         },
         body: JSON.stringify(payload),
@@ -70,6 +93,7 @@ export async function deleteAPI(api : string, payload ?: object){
         method: "DELETE",
         headers: {
             "Content-Type": "application/json",
+            "Authorization": `Bearer ${getToken()}`,
             cookie: getCookieHeader(),
         },
         body: payload ? JSON.stringify(payload) : undefined,
