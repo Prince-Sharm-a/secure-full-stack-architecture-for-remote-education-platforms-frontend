@@ -5,11 +5,12 @@ import Modal from "./model";
 import { GoogleIcon } from "./icon";
 import { postAPI } from "@/lib/apiCall";
 import { useForm } from "react-hook-form";
-import { useRouter } from "next/navigation";
+import { useRouter } from "next/navigation";  
+import { useAuth } from "@/context";
 import RegisterModal from "./registerModal";
 
-export default function LoginModal({ openRegister ,setRegisterOpen} : {openRegister?: boolean, setRegisterOpen ?: (openRegister:boolean) => void}) {
-  const [openLogin, setLoginOpen] = useState(false);
+export default function LoginModal() {
+  const {openLogin, setLoginOpen, openRegister, setRegisterOpen} = useAuth();
   const { register, handleSubmit } = useForm()
   const router = useRouter()
 
@@ -31,13 +32,12 @@ export default function LoginModal({ openRegister ,setRegisterOpen} : {openRegis
 
   return (
     <>
-      <RegisterModal openLogin={openLogin} setLoginOpen={setLoginOpen} />
       <Button
         variant={"outline"}
         onClick={() => setLoginOpen(true)}
         className="px-4 py-2 rounded-md cursor-pointer"
       >
-        Sign in
+        Sign In
       </Button>
 
       {/* Modal */}
@@ -60,7 +60,7 @@ export default function LoginModal({ openRegister ,setRegisterOpen} : {openRegis
             <div className="flex my-4 ">
               <p className="text-[14px] font-bold text-gray-300 space-x-2 ">
                 <span>New User ? </span>
-                <span className="text-blue-400 cursor-pointer   hover:underline" onClick={registerModalHandle}>Create Account</span>
+                <span className="text-blue-400 cursor-pointer hover:underline" onClick={registerModalHandle}>Create Account</span>
               </p>
             </div>
 
@@ -98,11 +98,14 @@ export default function LoginModal({ openRegister ,setRegisterOpen} : {openRegis
 
             {/* Button */}
             <Button type="submit" variant={"outline"} className="w-full py-2 rounded-md cursor-pointer">
-              Sign Up
+              Sign In
             </Button>
             </form>
         </Modal>
       )}
+      {
+        openRegister && <RegisterModal />
+      }
     </>
   );
 }

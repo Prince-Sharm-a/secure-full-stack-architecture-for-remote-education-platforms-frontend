@@ -6,17 +6,17 @@ import { GoogleIcon } from "./icon";
 import { postAPI } from "@/lib/apiCall";
 import { useForm } from "react-hook-form";
 import { useRouter } from "next/navigation";
-import LoginModal from "./LoginModal";
+import { useAuth } from "@/context";
 
 
-export default function RegisterModal({ openLogin ,setLoginOpen} : {openLogin?: boolean, setLoginOpen ?: (openLogin:boolean) => void}) {
-  const [openRegister, setRegisterOpen] = useState(false);
+export default function RegisterModal() {
+  const {openRegister, setRegisterOpen, setLoginOpen} = useAuth();
   const { register, handleSubmit } = useForm()
   const router = useRouter()
 
-  const loginHandle = async (data : any ) => {
+  const registerHandle = async (data : any ) => {
     // console.log(data)
-      const res = await postAPI('/auth/register',data);
+      const res = await postAPI('/auth/register',{...data,name: data.email, dob:new Date()});
       console.log(res);
       // if(res?.success){
 
@@ -24,17 +24,20 @@ export default function RegisterModal({ openLogin ,setLoginOpen} : {openLogin?: 
       // }
     
   }
+  const loginModalHandle = () => {
+    setLoginOpen(true);
+    setRegisterOpen(false)
+  }
 
   return (
     <>
-      <LoginModal openRegister={openRegister} setRegisterOpen={setRegisterOpen} />
-      <Button
+      {/* <Button
         variant={"outline"}
         onClick={() => setRegisterOpen(true)}
         className="px-4 py-2 rounded-md cursor-pointer"
       >
         Sign Up
-      </Button>
+      </Button> */}
 
       {/* Modal */}
       {openRegister && (
@@ -56,14 +59,14 @@ export default function RegisterModal({ openLogin ,setLoginOpen} : {openLogin?: 
             <div className="flex my-4 ">
                 <p className="text-[14px] font-bold text-gray-300 space-x-2 ">
                     <span>Existing User ? </span>
-                    <span className="text-blue-400 cursor-pointer   hover:underline">Sign In</span>
+                    <span className="text-blue-400 cursor-pointer hover:underline" onClick={loginModalHandle}>Sign In</span>
                 </p>
             </div>
 
             <Button className="font-bold mb-4 w-full cursor-pointer"><GoogleIcon /> Continue with Google</Button>
 
             {/* Email */}
-            <form onSubmit={handleSubmit(loginHandle)}>
+            <form onSubmit={handleSubmit(registerHandle)}>
             <input
               type="text"
               required
@@ -86,7 +89,7 @@ export default function RegisterModal({ openLogin ,setLoginOpen} : {openLogin?: 
               type="password"
               required
               {...register('confirm_password')}
-              placeholder="Password"
+              placeholder="Confirm Password"
               className="w-full mb-3 px-3 py-2 border rounded-md outline-none"
             />
 
@@ -103,7 +106,7 @@ export default function RegisterModal({ openLogin ,setLoginOpen} : {openLogin?: 
 
             {/* Button */}
             <Button type="submit" variant={"outline"} className="w-full py-2 rounded-md cursor-pointer">
-              Sign In
+              Sign Up
             </Button>
             </form>
         </Modal>

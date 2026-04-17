@@ -6,6 +6,7 @@ import { AppSidebar } from "@/components/app-sidebar";
 import Navbar from "@/components/navbar";
 import { ThemeProvider } from "@/components/ui/theme-provider";
 import Footer from "@/components/footer";
+import { AuthProvider } from "@/context";
 // import { headers } from "next/headers";
 
 const geistSans = Geist({
@@ -41,6 +42,7 @@ export default async function RootLayout({children,}: Readonly<{children: React.
         disableTransitionOnChange
         >
         <div className="">
+        <AuthProvider>
         <SidebarProvider>
           <AppSidebar />
           <div className=" w-full">
@@ -55,6 +57,7 @@ export default async function RootLayout({children,}: Readonly<{children: React.
             </footer>
           </div>
         </SidebarProvider>
+        </AuthProvider>
         </div>
         </ThemeProvider>
       </body>
