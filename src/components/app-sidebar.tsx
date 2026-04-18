@@ -1,3 +1,4 @@
+"use client"  
 import {
   Sidebar,
   SidebarContent,
@@ -14,6 +15,7 @@ import { Calendar, Home, Inbox, Search, Settings } from "lucide-react"
 import Link from "next/link"
 import { ModeToggle } from "./ui/darkModeToggle";
 import LoginModal from "./LoginModal";
+import { useAuth } from "@/context";
 
 type SidebarItem = {
     title: string;
@@ -52,15 +54,19 @@ const items: SidebarItem[] = [
 
 
 export function AppSidebar() {
+  const {isLogin, setIsLogin} = useAuth();
+
   return (
     <Sidebar>
       <SidebarHeader className="font-bold text-xl md:text-3xl">Edducator</SidebarHeader>
       <SidebarContent>
         <SidebarGroup >
             {/* <SidebarGroupLabel>Application</SidebarGroupLabel> */}
-            <SidebarGroupLabel className="justify-center mb-4">
-              <LoginModal />
-            </SidebarGroupLabel>
+            {( !isLogin &&
+              <SidebarGroupLabel className="justify-center mb-4">
+                <LoginModal />
+              </SidebarGroupLabel>
+            )}
             <SidebarGroupContent>
                 <SidebarMenu>
                     {

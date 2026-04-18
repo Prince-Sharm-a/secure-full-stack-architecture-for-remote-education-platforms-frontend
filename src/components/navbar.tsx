@@ -1,7 +1,7 @@
 "use client"
 import { useRouter } from "next/navigation";
 import { ModeToggle } from "./ui/darkModeToggle";
-import { ChangeEvent, FormEvent, FormEventHandler, useState } from "react";
+import { ChangeEvent, FormEvent, FormEventHandler, useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { Search } from "lucide-react";
 import { Button } from "./ui/button";
@@ -9,10 +9,10 @@ import Link from "next/link";
 import LoginModal from "@/components/LoginModal";
 import { SidebarTrigger } from "./ui/sidebar";
 import Avatar from "./avatar";
+import { useAuth } from "@/context";
 
-
-export default function Navbar({ isAuth, isRole }: { isAuth?: string, isRole?: string }){
-    const [isLogin, setIsLogin] = useState(isAuth === "false" ? false : true);
+export default function Navbar({ isAuth, isRole }: { isAuth?: string | null, isRole?: string }){
+    const {isLogin, setIsLogin} = useAuth();
 
     return (
         <div className="flex items-center py-2 w-full px-2 bg-mist-200/90 dark:bg-zinc-900/90">
@@ -26,7 +26,11 @@ export default function Navbar({ isAuth, isRole }: { isAuth?: string, isRole?: s
                     <ModeToggle />
                 </div>
                 <div className="hidden lg:block">
-                    {!isLogin && <LoginModal />}
+                    {!isLogin && 
+                        <>
+                        <LoginModal />
+                        </>
+                    }
                 </div>
                 <div>
                     {isLogin && <Avatar />}

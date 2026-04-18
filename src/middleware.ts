@@ -7,48 +7,52 @@ const routeAccess = [
 ];
 
 export async function middleware(req: NextRequest){
-    const { pathname } = await req.nextUrl;
+    const { pathname } = req.nextUrl;
+    // console.log('middleware running '+pathname);
 
-    const response = NextResponse.next();
+    // const requestHeaders = new Headers(req.headers)
+    // requestHeaders.set("x-log",pathname);
+    // requestHeaders.set("x-auth","false");
+    // requestHeaders.set("x-role","authorized");
+    
     const matchedRoute = routeAccess.find(route => pathname.startsWith(route.path));
-    response.cookies.set("x-log",pathname || "no data",{path: "/"});
-    response.cookies.set("x-auth","false");
 
     let data;
+    const token = req.cookies.get('token')?.value;
     try{
         const res = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/api/v1/user/profile`,{
             headers: {
-                cookie: req.headers.get("cookie") || "",
+                "Authorization": `Bearer ${token}`,
+                // cookie: req.headers.get("cookie") || ""
             }
         });
-        if(!res?.ok){
-            response.cookies.set("x-auth","false");
+        if(res?.ok){
+            data = await res.json();
+            // requestHeaders.set("x-auth","true");
             // return response;
-        } else {
-            response.cookies.set("x-auth","true"); 
         }
-        data = await res.json();
         
     } catch(error) {
-        response.cookies.set("x-error", "true");
-        response.cookies.set("x-message", "something went wrong");
+        // requestHeaders.set("x-auth","false");
+        if(error instanceof Error){
+            console.log(error?.message);
+        }
     } finally {
 
-        if(!matchedRoute){
-            response.cookies.set("x-role","authorized");
-            return response;
+        if(matchedRoute){
+            const role = data?.data?.role;
+            const authorized = role && matchedRoute.roles.includes(role);
+            if(!authorized){
+                return NextResponse.redirect(new URL('/unauthorized', req.url));
+            }
+            // requestHeaders.set("x-role",authorized ? "authorized" : "unauthorized");
         }
-        
-        if(!matchedRoute.roles.includes(data?.data?.role)){
-            response.cookies.set("x-role","unauthorized");
-        } else {
-            response.cookies.set("x-role","authorized");
-        }
-    
-        return response;
+
+        // return NextResponse.next({ request: { headers: requestHeaders } });
+        return NextResponse.next();
     }
 }
 
 export const config = {
-  matcher: ["/:path*"],
+  matcher: ["/((?!_next/static|_next/image|favicon.ico).*)"],
 };
