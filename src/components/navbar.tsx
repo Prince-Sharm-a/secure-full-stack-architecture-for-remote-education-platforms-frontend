@@ -9,17 +9,10 @@ import Link from "next/link";
 import LoginModal from "@/components/LoginModal";
 import { SidebarTrigger } from "./ui/sidebar";
 import Avatar from "./avatar";
-import RegisterModal from "./registerModal";
 import { useAuth } from "@/context";
 
-
 export default function Navbar({ isAuth, isRole }: { isAuth?: string | null, isRole?: string }){
-    const [isLogin, setIsLogin] = useState(false);
-    const { openRegister, openLogin } = useAuth();
-
-    useEffect(()=>{
-        setIsLogin(localStorage.getItem("token") ? true : false)
-    },[])
+    const {isLogin, setIsLogin} = useAuth();
 
     return (
         <div className="flex items-center py-2 w-full px-2 bg-mist-200/90 dark:bg-zinc-900/90">

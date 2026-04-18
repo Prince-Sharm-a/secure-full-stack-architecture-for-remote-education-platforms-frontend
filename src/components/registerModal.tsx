@@ -7,22 +7,33 @@ import { postAPI } from "@/lib/apiCall";
 import { useForm } from "react-hook-form";
 import { useRouter } from "next/navigation";
 import { useAuth } from "@/context";
+import { toast } from "sonner";
 
 
 export default function RegisterModal() {
   const {openRegister, setRegisterOpen, setLoginOpen} = useAuth();
-  const { register, handleSubmit } = useForm()
-  const router = useRouter()
+  const { register, handleSubmit, watch, formState: { errors } } = useForm()
+  const password = watch("password");
+  const router = useRouter();
 
   const registerHandle = async (data : any ) => {
     // console.log(data)
+    try{
       const res = await postAPI('/auth/register',{...data,name: data.email, dob:new Date()});
       console.log(res);
-      // if(res?.success){
 
-      //   router.push(`/${res?.data?.role}/dashboard`)
-      // }
-    
+      if(res?.success){
+        router.push(`/${res.data.role}/dashboard`);
+      }
+    } catch (error) {
+      console.log("Register Error:",error);
+    }
+  }
+  const onError = (errors : any) => {
+    if (errors.confirm_password) {
+      toast.error("Passwords do not match");
+      return;
+    }
   }
   const loginModalHandle = () => {
     setLoginOpen(true);
@@ -66,7 +77,7 @@ export default function RegisterModal() {
             <Button className="font-bold mb-4 w-full cursor-pointer"><GoogleIcon /> Continue with Google</Button>
 
             {/* Email */}
-            <form onSubmit={handleSubmit(registerHandle)}>
+            <form onSubmit={handleSubmit(registerHandle, onError)}>
             <input
               type="text"
               required
@@ -88,13 +99,26 @@ export default function RegisterModal() {
             <input
               type="password"
               required
-              {...register('confirm_password')}
+              {...register('confirm_password',{
+                validate: (value) => 
+                  value === password || "Passwords do not match",
+              })}
               placeholder="Confirm Password"
-              className="w-full mb-3 px-3 py-2 border rounded-md outline-none"
+              className={`w-full mb-3 px-3 py-2 border rounded-md outline-none ${
+                errors.confirm_password ? 'border-red-500' : ''
+              }`}
             />
 
+            {/* Error Message */}
+            {
+              errors.confirm_password && (
+                <p className="text-red-500 text-sm mb-2">
+                  {errors.confirm_password.message as string}
+                </p>
+            )}
+
             {/* Remember + Forgot */}
-            <div className="flex justify-between text-sm mb-4">
+            {/* <div className="flex justify-between text-sm mb-4">
               <label>
                 <input type="checkbox" className="mr-1" />
                 Remember me
@@ -102,7 +126,7 @@ export default function RegisterModal() {
               <span className="text-blue-500 cursor-pointer">
                 Forgot password?
               </span>
-            </div>
+            </div> */}
 
             {/* Button */}
             <Button type="submit" variant={"outline"} className="w-full py-2 rounded-md cursor-pointer">

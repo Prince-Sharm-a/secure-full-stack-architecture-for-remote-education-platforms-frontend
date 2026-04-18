@@ -1,6 +1,5 @@
 "use client";
 import { Button } from "@/components/ui/button";
-import { useEffect, useState } from "react";
 import Modal from "./model";
 import { GoogleIcon } from "./icon";
 import { postAPI } from "@/lib/apiCall";
@@ -10,18 +9,24 @@ import { useAuth } from "@/context";
 import RegisterModal from "./registerModal";
 
 export default function LoginModal() {
-  const {openLogin, setLoginOpen, openRegister, setRegisterOpen} = useAuth();
+  const {openLogin, setLoginOpen, openRegister, setRegisterOpen, setIsLogin} = useAuth();
   const { register, handleSubmit } = useForm()
   const router = useRouter()
 
   const loginHandle = async (data : any ) => {
     // console.log(data)
+    try {
       const res = await postAPI('/auth/login',data);
-      console.log(res);
-      // if(res?.success){
-
-      //   router.push(`/${res?.data?.role}/dashboard`)
-      // }
+      if(res?.success){
+        localStorage.setItem('token',res.data?.token);
+        document.cookie = `token=${res.data?.token};`
+        setIsLogin(true);
+        setLoginOpen(false);
+        router.push(`/${res?.data?.user?.role}/dashboard`)
+      }
+    } catch (error) {
+      console.log("Login Error:",error);
+    }
     
   }
 
@@ -87,10 +92,10 @@ export default function LoginModal() {
 
             {/* Remember + Forgot */}
             <div className="flex justify-between text-sm mb-4">
-              <label>
-                <input type="checkbox" className="mr-1" />
+              {/* <label>
+                <input {...register('remember')} type="checkbox" className="mr-1" />
                 Remember me
-              </label>
+              </label> */}
               <span className="text-blue-500 cursor-pointer">
                 Forgot password?
               </span>

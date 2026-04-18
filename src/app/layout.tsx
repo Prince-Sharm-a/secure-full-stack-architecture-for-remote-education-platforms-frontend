@@ -7,7 +7,7 @@ import Navbar from "@/components/navbar";
 import { ThemeProvider } from "@/components/ui/theme-provider";
 import Footer from "@/components/footer";
 import { AuthProvider } from "@/context";
-// import { headers } from "next/headers";
+import { Toaster } from "sonner";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -52,6 +52,7 @@ export default async function RootLayout({children,}: Readonly<{children: React.
             <main className="px-2 w-full md:min-h-117 min-h-126">
               {children}
             </main>
+            <Toaster />
             <footer className="w-full">
               <Footer />
             </footer>

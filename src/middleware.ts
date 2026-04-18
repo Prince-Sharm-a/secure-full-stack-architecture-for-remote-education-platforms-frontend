@@ -18,10 +18,12 @@ export async function middleware(req: NextRequest){
     const matchedRoute = routeAccess.find(route => pathname.startsWith(route.path));
 
     let data;
+    const token = req.cookies.get('token')?.value;
     try{
         const res = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/api/v1/user/profile`,{
             headers: {
-                cookie: req.headers.get("cookie") || "",
+                "Authorization": `Bearer ${token}`,
+                // cookie: req.headers.get("cookie") || ""
             }
         });
         if(res?.ok){
