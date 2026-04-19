@@ -4,6 +4,7 @@ import {
   CreditCardIcon,
   LogOutIcon,
   SettingsIcon,
+  User,
   UserIcon,
 } from "lucide-react"
 import {
@@ -16,15 +17,30 @@ import {
 import { getAPI } from "@/lib/apiCall";
 import { useRouter } from "next/navigation";
 import { useAuth } from "@/context";
+import { useEffect, useState } from "react";
+
+type UserProfileType = { name ?: string }
 
 export function DropdownMenuAvatar() {
+  const [user,  setUser ] = useState<UserProfileType>();
   const router = useRouter();
   const { setIsLogin } = useAuth();
+
+  useEffect(()=>{
+    (async ()=>{
+      const res = await getAPI("/user/profile");
+      if(res?.success){
+        setUser(res?.data);
+      }
+    })()
+  },[]);
+
   const handleLogout = async () => {
     try {
       const res = await getAPI('/auth/logout');
-      if(res?.success){
+      if(res?.data?.role){
         localStorage.removeItem('token');
+        setUser(undefined);
         setIsLogin(false);
         router.refresh();
       }
@@ -35,8 +51,11 @@ export function DropdownMenuAvatar() {
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
-        <Button className="w-8 h-8 md:w-9 md:h-9 p-0 rounded-full" variant={"outline"}>
-            <img src={`/api/avatar?name=prince`} className="rounded-full" alt="profile avatar" />
+        <Button className="w-8 h-8 md:w-9 md:h-9 p-0 rounded-full shadow-md" variant={"ghost"}>
+            { user?.name ?
+              <img src={`/api/avatar?name=${user?.name}`} className="rounded-full" alt="profile avatar" />
+              : <User />
+            }
         </Button>
       </DropdownMenuTrigger>
       <DropdownMenuContent>

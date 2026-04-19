@@ -1,7 +1,7 @@
 "use client";
 import { Button } from "@/components/ui/button";
 import Modal from "./model";
-import { GoogleIcon } from "./icon";
+import { GoogleIcon } from "../icon";
 import { postAPI } from "@/lib/apiCall";
 import { useForm } from "react-hook-form";
 import { useRouter } from "next/navigation";  

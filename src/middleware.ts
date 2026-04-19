@@ -41,6 +41,7 @@ export async function middleware(req: NextRequest){
 
         if(matchedRoute){
             const role = data?.data?.role;
+            console.log(role);
             const authorized = role && matchedRoute.roles.includes(role);
             if(!authorized){
                 return NextResponse.redirect(new URL('/unauthorized', req.url));

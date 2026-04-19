@@ -1,23 +1,73 @@
-import { Button } from "@/components/ui/button";
 
-export default function TeacherCourses(){
-    const course = [{},{},{},{},{},{},{},{},{},{},{},{}];
-    return (
-        <div className="justify-items-center my-10 not-md:my-5">
-            <div className="w-11/12 p-3 rounded-2xl dark:bg-zinc-900/60 mb-4 flex">
-                <Button className="ml-auto" variant={"outline"}>
-                    Add New Course
-                </Button>
+type Class = {
+  id: number;
+  name: string;
+  subject: string;
+  students: number;
+  schedule: string;
+};
+
+export default function TeacherCourses() {
+  const classes: Class[] = [
+    {
+      id: 1,
+      name: "BCA 3rd Year",
+      subject: "Web Development",
+      students: 40,
+      schedule: "Mon - Wed (10:00 AM)",
+    },
+    {
+      id: 2,
+      name: "BCA 2nd Year",
+      subject: "Database Systems",
+      students: 35,
+      schedule: "Tue - Thu (12:00 PM)",
+    },
+  ];
+
+  return (
+    <div>
+      <h1 className="text-2xl font-bold mb-6">My Courses</h1>
+
+      <div className="grid grid-cols-2 gap-6">
+        {classes.map((cls) => (
+          <div
+            key={cls.id}
+            className="bg-white p-5 rounded-xl shadow hover:shadow-lg transition"
+          >
+            {/* Class Name */}
+            <h2 className="text-lg font-semibold">{cls.name}</h2>
+
+            {/* Subject */}
+            <p className="text-gray-500 mb-2">{cls.subject}</p>
+
+            {/* Students */}
+            <p className="text-sm mb-1">
+              👨‍🎓 Students: {cls.students}
+            </p>
+
+            {/* Schedule */}
+            <p className="text-sm text-gray-500 mb-4">
+              📅 {cls.schedule}
+            </p>
+
+            {/* Actions */}
+            <div className="flex gap-2 flex-wrap">
+              <button className="bg-blue-500 text-white px-3 py-1 rounded">
+                View Students
+              </button>
+
+              <button className="bg-green-500 text-white px-3 py-1 rounded">
+                Add Assignment
+              </button>
+
+              <button className="bg-purple-500 text-white px-3 py-1 rounded">
+                Mark Attendance
+              </button>
             </div>
-            <div className="grid lg:grid-cols-4 dark:bg-zinc-900/60 pt-3 rounded-2xl w-11/12 md:grid-cols-3 grid-cols-2 justify-items-center lg:space-y-10 md:space-y-6">
-                {
-                    course && course.map((e,i) => (
-                        <div key={i} className="h-50 w-30 md:h-70 md:w-60 mx-1 lg:h-90 lg:w-70 rounded-2xl border border-zinc-400">
-                            
-                        </div>
-                    ))
-                }
-            </div>
-        </div>
-    )
+          </div>
+        ))}
+      </div>
+    </div>
+  );
 }

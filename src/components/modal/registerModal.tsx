@@ -2,7 +2,7 @@
 import { Button } from "@/components/ui/button";
 import { useEffect, useState } from "react";
 import Modal from "./model";
-import { GoogleIcon } from "./icon";
+import { GoogleIcon } from "../icon";
 import { postAPI } from "@/lib/apiCall";
 import { useForm } from "react-hook-form";
 import { useRouter } from "next/navigation";

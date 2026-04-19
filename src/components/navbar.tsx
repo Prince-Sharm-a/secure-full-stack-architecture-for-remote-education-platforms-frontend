@@ -5,8 +5,7 @@ import { ChangeEvent, FormEvent, FormEventHandler, useEffect, useState } from "r
 import { useForm } from "react-hook-form";
 import { Search } from "lucide-react";
 import { Button } from "./ui/button";
-import Link from "next/link";
-import LoginModal from "@/components/LoginModal";
+import { LoginModal } from "./modal";
 import { SidebarTrigger } from "./ui/sidebar";
 import Avatar from "./avatar";
 import { useAuth } from "@/context";
