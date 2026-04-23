@@ -1,23 +1,9 @@
 export default function AdminDashboard() {
   return (
     <div className="flex h-screen">
-      
-      {/* Sidebar */}
-      <aside className="w-64  dark:shadow-gray-700 shadow-md p-5">
-        <h2 className="text-xl font-bold mb-6">Admin Panel</h2>
-        <ul className="space-y-4">
-          <li className="font-medium cursor-pointer">Dashboard</li>
-          <li className="cursor-pointer">Users</li>
-          <li className="cursor-pointer">Classes</li>
-          <li className="cursor-pointer">Subjects</li>
-          <li className="cursor-pointer">Assignments</li>
-          <li className="cursor-pointer">Reports</li>
-          <li className="cursor-pointer">Settings</li>
-        </ul>
-      </aside>
 
       {/* Main */}
-      <main className="flex-1 p-6 overflow-y-auto">
+      <section className="flex-1 p-6 overflow-y-auto">
         
         {/* Topbar */}
         <div className="flex justify-between items-center mb-6">
@@ -97,7 +83,7 @@ export default function AdminDashboard() {
           </ul>
         </div>
 
-      </main>
+      </section>
     </div>
   );
 }

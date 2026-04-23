@@ -13,8 +13,8 @@ import {
 } from "@/components/ui/sidebar"
 import { Calendar, Home, Inbox, Search, Settings } from "lucide-react"
 import Link from "next/link"
-import { ModeToggle } from "./ui/darkModeToggle";
-import LoginModal from "./LoginModal";
+import { ModeToggle } from "../ui/darkModeToggle";
+import { LoginModal } from "../modal";
 import { useAuth } from "@/context";
 
 type SidebarItem = {

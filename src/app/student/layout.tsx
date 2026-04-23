@@ -1,4 +1,4 @@
-import StudentSidebar from "@/components/studentSidebar";
+import { StudentSidebar } from "@/components/sidebar";
 import Link from "next/link"
 
 export default function StudentLayout({ children }: { children: React.ReactNode }) {

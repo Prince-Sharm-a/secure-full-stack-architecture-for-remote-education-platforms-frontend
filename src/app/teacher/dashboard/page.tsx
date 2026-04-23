@@ -2,22 +2,9 @@
 export default function TeacherDashboard() {
   return (
     <div className="flex h-screen">
-      
-      {/* Sidebar */}
-      <aside className="w-64 dark:shadow-gray-700 shadow-md p-5">
-        <h2 className="text-xl font-bold mb-6">Teacher Panel</h2>
-        <ul className="space-y-4">
-          <li className="font-medium cursor-pointer">Dashboard</li>
-          <li className="cursor-pointer">My Classes</li>
-          <li className="cursor-pointer">Students</li>
-          <li className="cursor-pointer">Assignments</li>
-          <li className="cursor-pointer">Attendance</li>
-          <li className="cursor-pointer">Grades</li>
-        </ul>
-      </aside>
 
       {/* Main */}
-      <main className="flex-1 p-6 overflow-y-auto">
+      <section className="flex-1 p-6 overflow-y-auto">
         
         {/* Topbar */}
         <div className="flex justify-between items-center mb-6">
@@ -95,7 +82,7 @@ export default function TeacherDashboard() {
           </div>
         </div>
 
-      </main>
+      </section>
     </div>
   );
 }
