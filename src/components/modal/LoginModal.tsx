@@ -19,7 +19,7 @@ export default function LoginModal() {
       const res = await postAPI('/auth/login',data);
       if(res?.success){
         localStorage.setItem('token',res.data?.token);
-        document.cookie = `token=${res.data?.token};`
+        document.cookie = `token=${res.data?.token}; path=/; max-age=${60*60*24*10}`
         setIsLogin(true);
         setLoginOpen(false);
         router.push(`/${res?.data?.user?.role}/dashboard`)

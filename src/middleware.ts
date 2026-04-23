@@ -44,7 +44,7 @@ export async function middleware(req: NextRequest){
             console.log(role);
             const authorized = role && matchedRoute.roles.includes(role);
             if(!authorized){
-                return NextResponse.redirect(new URL('/unauthorized', req.url));
+                // return NextResponse.redirect(new URL('/unauthorized', req.url));
             }
             // requestHeaders.set("x-role",authorized ? "authorized" : "unauthorized");
         }

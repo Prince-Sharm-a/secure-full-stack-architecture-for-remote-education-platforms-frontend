@@ -11,7 +11,7 @@ import { toast } from "sonner";
 
 
 export default function RegisterModal() {
-  const {openRegister, setRegisterOpen, setLoginOpen} = useAuth();
+  const {openRegister, setRegisterOpen, setLoginOpen, setIsLogin} = useAuth();
   const { register, handleSubmit, watch, formState: { errors } } = useForm()
   const password = watch("password");
   const router = useRouter();
@@ -23,7 +23,11 @@ export default function RegisterModal() {
       console.log(res);
 
       if(res?.success){
-        router.push(`/${res.data.role}/dashboard`);
+        localStorage.setItem('token',res.data?.token);
+        document.cookie = `token=${res.data?.token}; path=/; max-age=${60*60*24*10}`
+        setIsLogin(true);
+        setRegisterOpen(false);
+        router.push(`/${res?.data?.user?.role}/dashboard`)
       }
     } catch (error) {
       console.log("Register Error:",error);

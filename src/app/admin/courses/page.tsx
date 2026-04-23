@@ -27,7 +27,7 @@ export default function AdminCoursesPage() {
 
   return (
     <div>
-      <h1 className="text-2xl font-bold mb-6">Classes</h1>
+      <h1 className="text-2xl font-bold mb-6">Courses</h1>
 
       {/* Create Button */}
       <div className="mb-4">
@@ -37,7 +37,7 @@ export default function AdminCoursesPage() {
       </div>
 
       {/* Table */}
-      <div className="bg-white p-5 rounded-xl shadow">
+      <div className="dark:shadow-gray-700 p-5 rounded-xl shadow">
         <table className="w-full text-left">
           <thead>
             <tr className="border-b text-gray-500">

@@ -43,7 +43,7 @@ export default function TeacherAssignmentsPage() {
       </div>
 
       {/* Table */}
-      <div className="bg-white p-5 rounded-xl shadow">
+      <div className="dark:shadow-gray-700 p-5 rounded-xl shadow">
         <table className="w-full text-left">
           <thead>
             <tr className="border-b text-gray-500">

@@ -22,7 +22,7 @@ export default function AdminSettingsPage() {
       <h1 className="text-2xl font-bold mb-6">Settings</h1>
 
       {/* General Settings */}
-      <div className="bg-white p-5 rounded-xl shadow mb-6">
+      <div className="dark:shadow-gray-700 p-5 rounded-xl shadow mb-6">
         <h2 className="text-lg font-semibold mb-4">
           General Settings
         </h2>
@@ -39,7 +39,7 @@ export default function AdminSettingsPage() {
       </div>
 
       {/* Academic Settings */}
-      <div className="bg-white p-5 rounded-xl shadow mb-6">
+      <div className="dark:shadow-gray-700 p-5 rounded-xl shadow mb-6">
         <h2 className="text-lg font-semibold mb-4">
           Academic Settings
         </h2>
@@ -60,7 +60,7 @@ export default function AdminSettingsPage() {
       </div>
 
       {/* Notifications */}
-      <div className="bg-white p-5 rounded-xl shadow mb-6">
+      <div className="dark:shadow-gray-700 p-5 rounded-xl shadow mb-6">
         <h2 className="text-lg font-semibold mb-4">
           Notifications
         </h2>
@@ -80,7 +80,7 @@ export default function AdminSettingsPage() {
       </div>
 
       {/* Security */}
-      <div className="bg-white p-5 rounded-xl shadow mb-6">
+      <div className="dark:shadow-gray-700 p-5 rounded-xl shadow mb-6">
         <h2 className="text-lg font-semibold mb-4">
           Security
         </h2>

@@ -27,13 +27,13 @@ export default function TeacherCourses() {
 
   return (
     <div>
-      <h1 className="text-2xl font-bold mb-6">My Courses</h1>
+      <h1 className="text-2xl font-bold mb-6">Courses</h1>
 
       <div className="grid grid-cols-2 gap-6">
         {classes.map((cls) => (
           <div
             key={cls.id}
-            className="bg-white p-5 rounded-xl shadow hover:shadow-lg transition"
+            className="dark:shadow-gray-700 p-5 rounded-xl shadow hover:shadow-lg transition"
           >
             {/* Class Name */}
             <h2 className="text-lg font-semibold">{cls.name}</h2>

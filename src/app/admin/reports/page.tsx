@@ -24,7 +24,7 @@ export default function AdminReportsPage() {
       {/* Stats Cards */}
       <div className="grid grid-cols-4 gap-4 mb-6">
         {stats.map((s, i) => (
-          <div key={i} className="bg-white p-4 rounded-xl shadow">
+          <div key={i} className="dark:shadow-gray-700 p-4 rounded-xl shadow">
             <h3 className="text-gray-500">{s.title}</h3>
             <p className="text-xl font-bold mt-2">{s.value}</p>
           </div>
@@ -32,7 +32,7 @@ export default function AdminReportsPage() {
       </div>
 
       {/* Attendance Overview */}
-      <div className="bg-white p-5 rounded-xl shadow mb-6">
+      <div className="dark:shadow-gray-700 p-5 rounded-xl shadow mb-6">
         <h2 className="text-lg font-semibold mb-4">
           Attendance Overview
         </h2>
@@ -55,7 +55,7 @@ export default function AdminReportsPage() {
       </div>
 
       {/* Performance Table */}
-      <div className="bg-white p-5 rounded-xl shadow">
+      <div className="dark:shadow-gray-700 p-5 rounded-xl shadow">
         <h2 className="text-lg font-semibold mb-4">
           Class Performance
         </h2>

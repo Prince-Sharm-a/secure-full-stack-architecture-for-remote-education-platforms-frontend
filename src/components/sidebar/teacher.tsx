@@ -7,7 +7,7 @@ export default function TeacherSidebar() {
 
   const navItems = [
     { name: "Dashboard", path: "/teacher/dashboard" },
-    { name: "My Courses", path: "/teacher/courses" },
+    { name: "Courses", path: "/teacher/courses" },
     { name: "Assignments", path: "/teacher/assignments" },
     { name: "Attendance", path: "/teacher/attendance" },
     { name: "Student", path: "/teacher/students" },
