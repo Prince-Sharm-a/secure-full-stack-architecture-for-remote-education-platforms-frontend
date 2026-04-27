@@ -10,11 +10,8 @@ export const AuthProvider = ({ children } : ChildrenType) => {
     const [isLogin, setIsLogin] = useState(false);
 
     useEffect(()=>{
-        const handleStorage = ()=>{
-            setIsLogin(localStorage.getItem("token") ? true : false)
-        }
-
-        window.addEventListener("storage", handleStorage);
+        
+        setIsLogin(localStorage.getItem("token") ? true : false)
     },[])
     
     return (
