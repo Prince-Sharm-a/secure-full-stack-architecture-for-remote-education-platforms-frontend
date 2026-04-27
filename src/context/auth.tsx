@@ -15,7 +15,6 @@ export const AuthProvider = ({ children } : ChildrenType) => {
         }
 
         window.addEventListener("storage", handleStorage);
-        return () => window.removeEventListener("storage", handleStorage);
     },[])
     
     return (
