@@ -32,6 +32,10 @@ async function handleResponse(res: Response) {
         return res.json();
     } catch (err: any){
       console.log(err?.message);
+      if(err?.message === 'Unauthenticated'){
+        localStorage.removeItem('token');
+        document.cookie = `token=; path=/;`;
+      }
     }
 }
 

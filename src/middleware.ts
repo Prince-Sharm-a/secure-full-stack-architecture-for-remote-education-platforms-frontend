@@ -6,6 +6,13 @@ const routeAccess = [
     {path: "/student", roles: ["admin","teacher","student"]},
 ];
 
+function getToken() {
+  if (typeof window !== "undefined") {
+    return localStorage.getItem("token") || "";
+  }
+  return "";
+}
+
 export async function middleware(req: NextRequest){
     const { pathname } = req.nextUrl;
     // console.log('middleware running '+pathname);
@@ -18,7 +25,7 @@ export async function middleware(req: NextRequest){
     const matchedRoute = routeAccess.find(route => pathname.startsWith(route.path));
 
     let data;
-    const token = req.cookies.get('token')?.value;
+    const token = req.cookies.get('token')?.value || getToken();
     try{
         const res = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/api/v1/user/profile`,{
             headers: {
@@ -44,7 +51,7 @@ export async function middleware(req: NextRequest){
             console.log(role);
             const authorized = role && matchedRoute.roles.includes(role);
             if(!authorized){
-                // return NextResponse.redirect(new URL('/unauthorized', req.url));
+                return NextResponse.redirect(new URL('/unauthorized', req.url));
             }
             // requestHeaders.set("x-role",authorized ? "authorized" : "unauthorized");
         }
