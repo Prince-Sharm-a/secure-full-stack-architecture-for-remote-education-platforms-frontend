@@ -1,3 +1,5 @@
+import { Button } from "@/components/ui/button";
+import Link from "next/link";
 
 type Class = {
   id: number;
@@ -23,18 +25,40 @@ export default function TeacherCourses() {
       students: 35,
       schedule: "Tue - Thu (12:00 PM)",
     },
+    {
+      id: 3,
+      name: "BCA 2nd Year",
+      subject: "Database Systems",
+      students: 35,
+      schedule: "Tue - Thu (12:00 PM)",
+    },
+    {
+      id: 4,
+      name: "BCA 2nd Year",
+      subject: "Database Systems",
+      students: 35,
+      schedule: "Tue - Thu (12:00 PM)",
+    },
   ];
 
   return (
     <div>
       <h1 className="text-2xl font-bold mb-6">Courses</h1>
 
-      <div className="grid grid-cols-2 gap-6">
+      <div className="grid md:grid-cols-4 grid-cols-2 gap-6">
+        <Link href={`/teacher/courses/new`}>
+        <div
+          className="dark:shadow-gray-700 cursor-pointer p-5 rounded-xl flex justify-center items-center shadow hover:shadow-lg transition"
+        >
+          <h2 className="text-[15vw] text-mist-400 dark:text-gray-600 font-extralight">+</h2>
+        </div>
+        </Link>
         {classes.map((cls) => (
           <div
             key={cls.id}
             className="dark:shadow-gray-700 p-5 rounded-xl shadow hover:shadow-lg transition"
           >
+          <Link href={`/teacher/courses/${cls.id}`}>
             {/* Class Name */}
             <h2 className="text-lg font-semibold">{cls.name}</h2>
 
@@ -46,25 +70,17 @@ export default function TeacherCourses() {
               👨‍🎓 Students: {cls.students}
             </p>
 
-            {/* Schedule */}
-            <p className="text-sm text-gray-500 mb-4">
-              📅 {cls.schedule}
-            </p>
-
             {/* Actions */}
             <div className="flex gap-2 flex-wrap">
-              <button className="bg-blue-500 text-white px-3 py-1 rounded">
+              <Button className="bg-blue-500 text-white px-3 py-1 rounded">
                 View Students
-              </button>
+              </Button>
 
-              <button className="bg-green-500 text-white px-3 py-1 rounded">
+              <Button className="bg-green-500 text-white px-3 py-1 rounded">
                 Add Assignment
-              </button>
-
-              <button className="bg-purple-500 text-white px-3 py-1 rounded">
-                Mark Attendance
-              </button>
+              </Button>
             </div>
+          </Link>
           </div>
         ))}
       </div>
