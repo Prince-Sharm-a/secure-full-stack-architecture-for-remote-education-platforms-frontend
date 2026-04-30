@@ -1,15 +1,45 @@
 "use client"
 import { supabase } from "@/lib/supabaseClient";
 import { Check, UploadIcon, X } from "lucide-react";
-import Image from "next/image";
 import { useState } from "react";
 import { toast } from "sonner";
 import { Button } from "./ui/button";
+import Cropper, { Area } from "react-easy-crop";
+
+const getCroppedImg = (imageSrc, crop) => {
+  return new Promise((resolve) => {
+    const image = new Image();
+    image.src = imageSrc;
+
+    image.onload = () => {
+      const canvas = document.createElement("canvas");
+      const ctx = canvas.getContext("2d");
+
+      canvas.width = crop.width;
+      canvas.height = crop.height;
+
+      ctx.drawImage(
+        image,
+        crop.x,
+        crop.y,
+        crop.width,
+        crop.height,
+        0,
+        0,
+        crop.width,
+        crop.height
+      );
+
+      resolve(canvas.toDataURL("image/jpeg"));
+    };
+  });
+};
 
 export default function ImageUpload({setCoverImage} : {setCoverImage : (coverImage:string) => void}){
-    const [preview, setPreview] = useState<string>("");
     const [file, setFile] = useState<File | null>(null);
+    const [preview, setPreview] = useState<string>("");
     const [ loading, setLoading ] = useState(false);
+    const [showCrop, setShowCrop] = useState(false);
 
     const handleImageChange= async (e: React.ChangeEvent<HTMLInputElement>)=>{
         const image = e.target.files?.[0];
@@ -17,9 +47,11 @@ export default function ImageUpload({setCoverImage} : {setCoverImage : (coverIma
             setFile(image);
             const previewUrl = URL.createObjectURL(image);
             setPreview(previewUrl);
+            setShowCrop(true);
         }
         // console.log(e.target.files[0])
     }
+    
     const uploadToSupaBase = async (image : File)=>{
         setLoading(true);
         // console.log(image)
@@ -46,9 +78,21 @@ export default function ImageUpload({setCoverImage} : {setCoverImage : (coverIma
             setLoading(false)
         }
     }
+
+    const handleUpload = async () => {
+        if(!file) return ;
+        uploadToSupaBase(file);
+    };
+
+    const handleSave = async (croppedImage : String) => {
+        if (!croppedImage) return ;
+        setPreview(croppedImage);
+        setShowCrop(false)
+    }
+
     return (
         <div className="flex gap-x-4 h-full">
-            <div className="w-full h-full">
+            <div className="w-full h-full relative">
                 <label className="cursor-pointer w-60">
                     <span 
                     style={{backgroundImage:`${preview ? `url(${preview})` : 'none'}`,backgroundSize:"cover",backgroundPosition:"center"}} 
@@ -59,14 +103,76 @@ export default function ImageUpload({setCoverImage} : {setCoverImage : (coverIma
                             Upload Cover Image
                             <UploadIcon />
                             </> : <>
-                            <Button className="absolute rounded-full right-0 top-0 hover:text-red-500" variant={"link"} ><X /></Button>
-                            <Button className="absolute rounded-full left-0 top-0 hover:text-emerald-400" variant={"link"} ><Check /></Button>
                             </>
                         }
                     </span>
                     <input type="file" accept=".png, .jpg, .jpeg" onChange={handleImageChange} hidden disabled={loading} />
                 </label>
+                {
+                    preview && <>
+                    <Button onClick={handleUpload} className="absolute rounded-full left-0 top-0 hover:text-emerald-400 bg-gray-400/20" variant={"link"} ><Check size={50} /></Button>
+                    <Button 
+                    onClick={()=>{
+                        setPreview("");
+                        setFile(null);
+                        setShowCrop(false);
+                    }} 
+                    className="absolute rounded-full right-0 top-0 hover:text-red-500 bg-gray-400/20" variant={"link"}
+                    >
+                        <X size={100}/>
+                    </Button>
+                    </>
+                }
             </div>
+            {showCrop && (
+                <CropModal
+                image={preview}
+                onClose={() => setShowCrop(false)}
+                onSave={handleSave}
+                />
+            )}
         </div>
     )
+}
+
+
+export function CropModal({ image, onClose, onSave }) {
+  const [crop, setCrop] = useState({ x: 0, y: 0 });
+  const [zoom, setZoom] = useState(1);
+  const [croppedAreaPixels, setCroppedAreaPixels] = useState(null);
+
+  const onCropComplete = (_, croppedAreaPixels) => {
+    setCroppedAreaPixels(croppedAreaPixels);
+  };
+
+  const handleSave = async () => {
+    const croppedImage = await getCroppedImg(image, croppedAreaPixels);
+    onSave(croppedImage);
+  };
+
+  return (
+    <div className="fixed inset-0 bg-black/70 flex items-center justify-center z-50"  onClick={onClose}>
+      <div className="bg-white px-4 rounded w-[500px] pb-4 space-y-4" onClick={(e)=>e.stopPropagation()}>
+        <div className="flex justify-between mt-2">
+          <Button onClick={onClose} className="ml-auto" variant={"link"}><X className="text-red-500" size={60} /></Button>
+        </div>
+        <div className="w-full h-[350px] relative overflow-hidden">
+        <Cropper
+          image={image}
+          crop={crop}
+          zoom={zoom}
+          aspect={16 / 9} // 👈 IMPORTANT for course card
+          onCropChange={setCrop}
+          onZoomChange={setZoom}
+          onCropComplete={onCropComplete}
+        />
+        </div>
+        <div className="flex justify-between mt-2">
+          <Button onClick={handleSave} variant={"outline"} className="bg-blue-500 ml-auto px-3 py-1 rounded-x">
+            Save
+          </Button>
+        </div>
+      </div>
+    </div>
+  );
 }
