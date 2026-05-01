@@ -6,14 +6,26 @@ import { toast } from "sonner";
 import { Button } from "./ui/button";
 import Cropper, { Area } from "react-easy-crop";
 
-const getCroppedImg = (imageSrc, crop) => {
-  return new Promise((resolve) => {
+type CropModalProps = {
+  image: string;
+  onClose: () => void;
+  onSave: (croppedImage: string) => void;
+}
+
+const getCroppedImg = (imageSrc: string, crop: Area): Promise<string> => {
+  return new Promise((resolve, reject) => {
     const image = new Image();
     image.src = imageSrc;
+    image.crossOrigin = "anonymous";
 
     image.onload = () => {
       const canvas = document.createElement("canvas");
       const ctx = canvas.getContext("2d");
+
+      if(!ctx){
+        reject("Canvas context is null");
+        return;
+      }
 
       canvas.width = crop.width;
       canvas.height = crop.height;
@@ -32,6 +44,7 @@ const getCroppedImg = (imageSrc, crop) => {
 
       resolve(canvas.toDataURL("image/jpeg"));
     };
+    image.onerror = () => reject("Image load failed");
   });
 };
 
@@ -81,11 +94,13 @@ export default function ImageUpload({setCoverImage} : {setCoverImage : (coverIma
 
     const handleUpload = async () => {
         if(!file) return ;
+
         uploadToSupaBase(file);
     };
 
-    const handleSave = async (croppedImage : String) => {
+    const handleSave = async (croppedImage: string) => {
         if (!croppedImage) return ;
+
         setPreview(croppedImage);
         setShowCrop(false)
     }
@@ -136,16 +151,18 @@ export default function ImageUpload({setCoverImage} : {setCoverImage : (coverIma
 }
 
 
-export function CropModal({ image, onClose, onSave }) {
+export function CropModal({ image, onClose, onSave }: CropModalProps) {
   const [crop, setCrop] = useState({ x: 0, y: 0 });
   const [zoom, setZoom] = useState(1);
-  const [croppedAreaPixels, setCroppedAreaPixels] = useState(null);
+  const [croppedAreaPixels, setCroppedAreaPixels] = useState<Area | null>(null);
 
-  const onCropComplete = (_, croppedAreaPixels) => {
+  const onCropComplete = (_: Area, croppedAreaPixels: Area) => {
     setCroppedAreaPixels(croppedAreaPixels);
   };
 
   const handleSave = async () => {
+    if(!croppedAreaPixels) return;
+    
     const croppedImage = await getCroppedImg(image, croppedAreaPixels);
     onSave(croppedImage);
   };

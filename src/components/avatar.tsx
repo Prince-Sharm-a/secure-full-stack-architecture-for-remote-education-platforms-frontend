@@ -14,7 +14,7 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu"
-import { getAPI } from "@/lib/apiCall";
+import { getAPIClient } from "@/lib/apiCall";
 import { useRouter } from "next/navigation";
 import { useAuth } from "@/context";
 import { useEffect, useState } from "react";
@@ -28,7 +28,7 @@ export function DropdownMenuAvatar() {
 
   useEffect(()=>{
     (async ()=>{
-      const res = await getAPI("/user/profile");
+      const res = await getAPIClient("/user/profile");
       if(res?.success){
         setUser(res?.data);
       }
@@ -37,7 +37,7 @@ export function DropdownMenuAvatar() {
 
   const handleLogout = async () => {
     try {
-      const res = await getAPI('/auth/logout');
+      const res = await getAPIClient('/auth/logout');
       if(res?.data?.role){
         localStorage.removeItem('token');
         setUser(undefined);
