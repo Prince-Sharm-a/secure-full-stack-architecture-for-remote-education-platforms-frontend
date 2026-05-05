@@ -111,10 +111,10 @@ export default function ImageUpload({setCoverImage} : {setCoverImage : (coverIma
                 <label className="cursor-pointer w-60">
                     <span 
                     style={{backgroundImage:`${preview ? `url(${preview})` : 'none'}`,backgroundSize:"cover",backgroundPosition:"center"}} 
-                    className="border flex gap-1 text-center flex-wrap relative text-black text-[2vw] font-bold border-gray-400 border-dashed h-full bg-gray-500/8 dark:bg-mist-200/30 justify-center items-center rounded">
+                    className="border flex gap-1 flex-wrap relative text-black text-[2vw] font-bold border-gray-400 border-dashed h-full bg-gray-500/8 dark:bg-mist-200/30 justify-center items-center rounded">
                         
                         {
-                            !preview ? <div>
+                            !preview ? <div className="flex items-center m-1">
                             Upload Cover Image
                             <UploadIcon />
                             </div> : <>

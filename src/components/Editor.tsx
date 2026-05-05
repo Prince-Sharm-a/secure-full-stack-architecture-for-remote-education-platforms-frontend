@@ -6,7 +6,7 @@ import { useEffect, useState } from "react";
 import ImageUpload from "./ImageUpload";
 import { Button } from "./ui/button";
 import { Dot, Plus } from "lucide-react";
-import { getAPI } from "@/lib/apiCall";
+import { getAPI, postAPI, putAPI } from "@/lib/apiCall";
 
 const ReactQuill = dynamic(()=>import("react-quill-new"),{ssr:false});
 
@@ -24,22 +24,35 @@ export default function Editor({id}:{id?:number}){
             console.log(data);
             setContent(data?.description);
             setStatus(data?.status);
+            setValue("id", data?.id);
             setValue("title", data?.title);
+            setValue("price", data?.price);
             setValue("levelFrom", data?.level?.split(" ")[0]);
             setValue("levelTo", data?.level?.split(" ")[2]);
             setValue("category", data?.category);
             })()
         }
-      },[id]);
+    },[id]);
 
-    const onFormSubmit = (data : any)=>{
-        console.log(data);
-        // reset(formData);
+    const onFormSubmit = async (payload : any)=>{
+        console.log();
+        if(payload?.id){
+            const { data } = await putAPI(`/teacher/courses/${payload?.id}`,{...payload,status,description:content});
+        } else{
+            const { data } = await postAPI(`/teacher/courses`,{...payload,status,description:content});
+            setValue("id", data?.id);
+        }
     }
     return (
         <div>
             <div className="flex gap-4">
-                <select className="font-bold text-xl dark:bg-black border px-3 py-2 rounded-sm ml-auto" disabled={status === 'rejected'} defaultValue={status} onChange={(e) => setStatus(e.target.value)}>
+                <select 
+                className="font-bold text-xl dark:bg-black border px-3 py-2 rounded-sm ml-auto" 
+                disabled={status === 'rejected'} 
+                value={status} 
+                onChange={(e) => {
+                    setStatus(e.target.value)
+                }}>
                     <option value='draft' >Draft</option>
                     <option value='published' >Publish</option>
                 </select>
@@ -47,7 +60,7 @@ export default function Editor({id}:{id?:number}){
             </div>
             <form onSubmit={handleSubmit(onFormSubmit)} className="space-y-4">
                 {
-                    id && <input className="hidden" onChange={(e)=>console.log('EDIT')} value={id}/>
+                    id && <input {...register('id')} className="hidden" onChange={(e)=>console.log('EDIT')} value={id}/>
                 }
                 <div className="grid md:grid-cols-3 h-full gap-4">
                 <div className="h-full relative">
@@ -73,8 +86,14 @@ export default function Editor({id}:{id?:number}){
                     </select>
                 </div>
                 </div>
-                <label htmlFor="category" className="text-2xl font-bold">Category</label>
+                <div className="md:grid md:grid-cols-2 space-x-4">                
+                <label htmlFor="price" className="text-2xl font-bold">Price
+                <input required {...register('price')} defaultValue={0} type="text" className="font-bold text-xl border px-3 py-2 rounded-sm w-full" placeholder="Enter Price..."/>
+                </label>
+                <label htmlFor="category" className="text-2xl font-bold">Category
                 <input required {...register('category')} type="text" className="font-bold text-xl border px-3 py-2 rounded-sm w-full" placeholder="Enter Category..."/>
+                </label>
+                </div>
                 </div>
                 </div>
                 <ReactQuill 
