@@ -10,7 +10,7 @@ import { getAPI } from "@/lib/apiCall";
 
 const ReactQuill = dynamic(()=>import("react-quill-new"),{ssr:false});
 
-export default function Editor({id}:{id:number}){
+export default function Editor({id}:{id?:number}){
     const { register, handleSubmit, setValue } = useForm();
     const [ content, setContent ] = useState("");
     const [ coverImage, setCoverImage ] = useState("");
