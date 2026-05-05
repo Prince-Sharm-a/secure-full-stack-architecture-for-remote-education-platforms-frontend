@@ -19,7 +19,7 @@ export default function TeacherCourses() {
       const res = await getAPI('/teacher/courses');
       setData(res?.data?.data);
     })()
-  })
+  },[]);
 
   return (
     <div>

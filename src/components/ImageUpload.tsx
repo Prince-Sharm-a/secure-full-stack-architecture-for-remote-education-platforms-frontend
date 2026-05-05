@@ -111,13 +111,13 @@ export default function ImageUpload({setCoverImage} : {setCoverImage : (coverIma
                 <label className="cursor-pointer w-60">
                     <span 
                     style={{backgroundImage:`${preview ? `url(${preview})` : 'none'}`,backgroundSize:"cover",backgroundPosition:"center"}} 
-                    className="border flex gap-4 flex-wrap relative text-black text-[2vw] font-bold border-gray-400 border-dashed h-full bg-gray-500/8 dark:bg-mist-200/30 justify-center items-center rounded">
+                    className="border flex gap-1 text-center flex-wrap relative text-black text-[2vw] font-bold border-gray-400 border-dashed h-full bg-gray-500/8 dark:bg-mist-200/30 justify-center items-center rounded">
                         
                         {
-                            !preview ? <>
+                            !preview ? <div>
                             Upload Cover Image
                             <UploadIcon />
-                            </> : <>
+                            </div> : <>
                             </>
                         }
                     </span>
@@ -169,7 +169,7 @@ export function CropModal({ image, onClose, onSave }: CropModalProps) {
 
   return (
     <div className="fixed inset-0 bg-black/70 flex items-center justify-center z-50"  onClick={onClose}>
-      <div className="bg-white px-4 rounded w-[500px] pb-4 space-y-4" onClick={(e)=>e.stopPropagation()}>
+      <div className="bg-white dark:bg-black px-4 rounded w-[500px] pb-4 space-y-4" onClick={(e)=>e.stopPropagation()}>
         <div className="flex justify-between mt-2">
           <Button onClick={onClose} className="ml-auto" variant={"link"}><X className="text-red-500" size={60} /></Button>
         </div>
@@ -185,7 +185,7 @@ export function CropModal({ image, onClose, onSave }: CropModalProps) {
         />
         </div>
         <div className="flex justify-between mt-2">
-          <Button onClick={handleSave} variant={"outline"} className="bg-blue-500 ml-auto px-3 py-1 rounded-x">
+          <Button onClick={handleSave} variant={"outline"} className="bg-blue-500 dark:bg-blue-500 cursor-pointer ml-auto px-3 py-1 rounded-x">
             Save
           </Button>
         </div>

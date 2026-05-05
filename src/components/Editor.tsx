@@ -2,21 +2,39 @@
 import "react-quill-new/dist/quill.snow.css";
 import dynamic from "next/dynamic";
 import { useForm } from "react-hook-form";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import ImageUpload from "./ImageUpload";
 import { Button } from "./ui/button";
 import { Dot, Plus } from "lucide-react";
+import { getAPI } from "@/lib/apiCall";
 
 const ReactQuill = dynamic(()=>import("react-quill-new"),{ssr:false});
 
-export default function Editor(){
-    const { register, handleSubmit } = useForm();
+export default function Editor({id}:{id:number}){
+    const { register, handleSubmit, setValue } = useForm();
     const [ content, setContent ] = useState("");
     const [ coverImage, setCoverImage ] = useState("");
-    const [ status, setStatus ] = useState("rejected");
+    const [ status, setStatus ] = useState("draft");
+    
+
+    useEffect(()=>{
+        if(id){
+            (async () => {
+            const {data} = await getAPI(`/teacher/courses/${id}`);
+            console.log(data);
+            setContent(data?.description);
+            setStatus(data?.status);
+            setValue("title", data?.title);
+            setValue("levelFrom", data?.level?.split(" ")[0]);
+            setValue("levelTo", data?.level?.split(" ")[2]);
+            setValue("category", data?.category);
+            })()
+        }
+      },[id]);
 
     const onFormSubmit = (data : any)=>{
-
+        console.log(data);
+        // reset(formData);
     }
     return (
         <div>
@@ -25,9 +43,12 @@ export default function Editor(){
                     <option value='draft' >Draft</option>
                     <option value='published' >Publish</option>
                 </select>
-                <Button variant={"ghost"} className="bg-cyan-600">Save</Button>
+                <Button variant={"ghost"} onClick={handleSubmit(onFormSubmit)} className="bg-cyan-600">Save</Button>
             </div>
             <form onSubmit={handleSubmit(onFormSubmit)} className="space-y-4">
+                {
+                    id && <input className="hidden" onChange={(e)=>console.log('EDIT')} value={id}/>
+                }
                 <div className="grid md:grid-cols-3 h-full gap-4">
                 <div className="h-full relative">
                     <ImageUpload setCoverImage={setCoverImage} />
@@ -45,7 +66,7 @@ export default function Editor(){
                         <option value="advanced">advanced</option>
                     </select>
                     <span className="text-2xl">to</span>
-                    <select {...register('levelTo')} className="font-bold text-xl dark:bg-black border px-3 py-2 rounded-sm w-full" defaultValue={'intermediate'}>
+                    <select {...register('levelTo')} className="font-bold text-xl dark:bg-black border px-3 py-2 rounded-sm w-full" defaultValue={"intermediate"}>
                         <option value='beginner' >beginner</option>
                         <option value='intermediate' >intermediate</option>
                         <option value="advanced">advanced</option>
