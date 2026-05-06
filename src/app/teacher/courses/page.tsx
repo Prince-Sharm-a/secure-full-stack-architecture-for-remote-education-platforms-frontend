@@ -13,6 +13,7 @@ type CoursesType = {
 
 export default function TeacherCourses() {
   const [data, setData] = useState<CoursesType[]>([]);
+  console.log(data);
   
   useEffect(()=>{
     (async () => {

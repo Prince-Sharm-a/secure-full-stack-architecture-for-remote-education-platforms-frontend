@@ -15,16 +15,25 @@ export default function Editor({id}:{id?:number}){
     const [ content, setContent ] = useState("");
     const [ coverImage, setCoverImage ] = useState("");
     const [ status, setStatus ] = useState("draft");
-    
+    const [ initialData, setInitialData ] = useState<any>({});
 
     useEffect(()=>{
         if(id){
             (async () => {
             const {data} = await getAPI(`/teacher/courses/${id}`);
             console.log(data);
+            setInitialData({
+                id: `${data?.id}`,
+                title: data?.title,
+                levelFrom: data?.level?.split(" ")[0],
+                levelTo: data?.level?.split(" ")[2],
+                price: data?.price,
+                category: data?.category,
+                status: data?.status,
+                description: data?.description
+            });
             setContent(data?.description);
             setStatus(data?.status);
-            setValue("id", data?.id);
             setValue("title", data?.title);
             setValue("price", data?.price);
             setValue("levelFrom", data?.level?.split(" ")[0]);
@@ -35,7 +44,12 @@ export default function Editor({id}:{id?:number}){
     },[id]);
 
     const onFormSubmit = async (payload : any)=>{
-        console.log();
+        // console.log(JSON.stringify(initialData),JSON.stringify({...payload,status:status,description:content}));
+        // console.log(JSON.stringify(initialData) === JSON.stringify({...payload,status:status,description:content}));
+
+        if(JSON.stringify(initialData) === JSON.stringify({...payload,status:status,description:content})){
+            return ;
+        }
         if(payload?.id){
             const { data } = await putAPI(`/teacher/courses/${payload?.id}`,{...payload,status,description:content});
         } else{
@@ -43,6 +57,7 @@ export default function Editor({id}:{id?:number}){
             setValue("id", data?.id);
         }
     }
+
     return (
         <div>
             <div className="flex gap-4">
@@ -64,7 +79,7 @@ export default function Editor({id}:{id?:number}){
                 }
                 <div className="grid md:grid-cols-3 h-full gap-4">
                 <div className="h-full relative">
-                    <ImageUpload setCoverImage={setCoverImage} />
+                    <ImageUpload coverImage={coverImage} setCoverImage={setCoverImage} />
                     <div className="ml-auto flex items-center absolute right-0 bottom-0 bg-gray-400/20 rounded-full"><Dot className={`${status === 'published' ? 'blink text-emerald-500' : status === 'rejected' ? 'blink text-red-500' : 'text-gray-400'}`} size={40} /></div>
                 </div>
                 <div className="col-span-2 space-y-4">
@@ -123,9 +138,64 @@ export default function Editor({id}:{id?:number}){
                 ]}
                 />
             </form>
-            <div className="mt-4 flex">
+            <ModulesEditor id={id}/>
+        </div>
+    )
+}
+
+function ModulesEditor({id}:{id?:number}){
+    const { register, handleSubmit, setValue } = useForm();
+    const [ modules, setModules ] = useState([]);
+
+    return (
+        <div className="mt-4 flex flex-col">
+            <div className="flex">
                 <h2 className="text-2xl font-bold">Modules</h2>
-                <Button variant={'ghost'} className="flex ml-auto"><Plus /></Button>
+                <Button variant={'ghost'} className="flex ml-auto cursor-pointer "><Plus className="size-5 font-bold" /></Button>
+            </div>
+            <div className="border-t border-x dark:border-t-white dark:border-x-white py-4 rounded-t-4xl text-center">
+                <table className="w-full ">
+                    <tr className="">
+                        <th className="w-[10%] ">
+                            S no.
+                        </th>
+                        <th className="w-[70%] ">
+                            Title
+                        </th>
+                        <th className="w-[20%] ">
+                            Actions
+                        </th>
+                    </tr>
+                    {
+                        <tr>
+                            <td  className="w-[10%] text-xl">
+                                {modules.length + 1}
+                            </td>
+                            <td className="w-[70%] px-4 py-2">
+                                <input {...register('title')} className="hidden" />
+                                <input type="text" className="font-bold text-lg dark:bg-black border px-2 py-1 rounded-sm w-full" />
+                            </td>
+                            <td className="w-[20%]">
+                                <Button className="bg-cyan-600" >Save</Button>
+                            </td>
+                        </tr>
+                    }
+                    {
+                        modules && modules?.length > 0 && modules.map((e,i) => (
+                            <tr>
+                                <td  className="w-[10%]">
+                        
+                                </td>
+                                <td className="w-[70%]">
+
+                                </td>
+                                <td className="w-[20%]">
+                                    <Button className="bg-cyan-600" >Save</Button>
+                                </td>
+                            </tr>
+                        ))
+                    }
+                </table>
             </div>
         </div>
     )

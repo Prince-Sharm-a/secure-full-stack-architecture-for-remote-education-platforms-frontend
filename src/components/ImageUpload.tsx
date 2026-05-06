@@ -48,9 +48,9 @@ const getCroppedImg = (imageSrc: string, crop: Area): Promise<string> => {
   });
 };
 
-export default function ImageUpload({setCoverImage} : {setCoverImage : (coverImage:string) => void}){
+export default function ImageUpload({coverImage,setCoverImage} : {coverImage:string ,setCoverImage : (coverImage:string) => void}){
     const [file, setFile] = useState<File | null>(null);
-    const [preview, setPreview] = useState<string>("");
+    const [preview, setPreview] = useState<string>(coverImage ? coverImage : "");
     const [ loading, setLoading ] = useState(false);
     const [showCrop, setShowCrop] = useState(false);
 
@@ -114,7 +114,7 @@ export default function ImageUpload({setCoverImage} : {setCoverImage : (coverIma
                     className="border flex gap-1 flex-wrap relative text-black text-[2vw] font-bold border-gray-400 border-dashed h-full bg-gray-500/8 dark:bg-mist-200/30 justify-center items-center rounded">
                         
                         {
-                            !preview ? <div className="flex items-center m-1">
+                            !preview ? <div className="flex flex-col items-center m-1">
                             Upload Cover Image
                             <UploadIcon />
                             </div> : <>
@@ -124,7 +124,7 @@ export default function ImageUpload({setCoverImage} : {setCoverImage : (coverIma
                     <input type="file" accept=".png, .jpg, .jpeg" onChange={handleImageChange} hidden disabled={loading} />
                 </label>
                 {
-                    preview && <>
+                    !coverImage && preview && <>
                     <Button onClick={handleUpload} className="absolute rounded-full left-0 top-0 hover:text-emerald-400 bg-gray-400/20" variant={"link"} ><Check size={50} /></Button>
                     <Button 
                     onClick={()=>{
