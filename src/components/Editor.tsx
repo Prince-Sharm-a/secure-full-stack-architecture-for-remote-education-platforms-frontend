@@ -52,24 +52,24 @@ export default function Editor({id}:{id?:number}){
         // console.log(JSON.stringify(initialData),JSON.stringify({...payload,status:status,description:content,cover_image:coverImage}));
         // console.log(JSON.stringify(initialData) === JSON.stringify({...payload,status:status,description:content,cover_image:coverImage}));
         // return ;
-        if(JSON.stringify(initialData) === JSON.stringify({...payload,status:status,description:content})){
+        if(JSON.stringify(initialData) === JSON.stringify({...payload,status:status,description:content,cover_image:coverImage})){
             return courseId;
         }
         if(payload?.id){
-            const { data } = await putAPI(`/teacher/courses/${payload?.id}`,{...payload,status,description:content});
+            const { data } = await putAPI(`/teacher/courses/${payload?.id}`,{...payload,status,description:content,cover_image:coverImage});
             setInitialData({
                 id: data?.id,
                 title: data?.title,
+                price: data?.price,
                 levelFrom: data?.level?.split(" ")[0],
                 levelTo: data?.level?.split(" ")[2],
-                price: data?.price,
                 category: data?.category,
                 status: data?.status,
                 description: data?.description,
                 cover_image: data?.cover_image
             });
         } else{
-            const { data } = await postAPI(`/teacher/courses`,{...payload,status,description:content});
+            const { data } = await postAPI(`/teacher/courses`,{...payload,status,description:content,cover_image:coverImage});
             setValue("id", data?.id);
             setCourseId(data?.id);
             return data?.id;

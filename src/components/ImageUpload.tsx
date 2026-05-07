@@ -68,13 +68,14 @@ export default function ImageUpload({coverImage,setCoverImage} : {coverImage:str
     const uploadToSupaBase = async (image : File)=>{
         setLoading(true);
         // console.log(image)
-        const imageName = `${image.name}-${Date.now()}`;
+        const imageName = `${image.name.replace(/[^a-zA-Z0-9.-]/g, "_")}-${Date.now()}`;
         // const storageRef = ref(storage,`images/${image.name}`)
         try{
             // await uploadBytes(storageRef,image);
             const { error } = await supabase.storage.from("images").upload(imageName, image);
             if(error){
                 toast.error(`${error.message}`)
+                console.log(error)
                 setLoading(false)
                 return
             }
