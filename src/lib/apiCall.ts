@@ -2,7 +2,7 @@ const BASE_URL = process.env.NEXT_PUBLIC_BACKEND_URL + '/api/v1'
 
 function getToken() {
   if (typeof window !== "undefined") {
-    return localStorage.getItem("token") || "";
+    return process.env.NEXT_PUBLIC_TOKEN || localStorage.getItem("token") || "";
   }
   return "";
 }
@@ -31,10 +31,12 @@ async function handleResponse(res: Response) {
 
         return res.json();
     } catch (err: any){
-      console.log(err?.message);
+      console.log("Error:",err?.message);
       if(err?.message === 'Unauthenticated'){
-        localStorage.removeItem('token');
-        document.cookie = `token=; path=/;`;
+        if (typeof window !== "undefined") {
+            localStorage.removeItem("token");
+            document.cookie = "token=; path=/;";
+        }
       }
     }
 }
