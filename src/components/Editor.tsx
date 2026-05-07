@@ -216,8 +216,13 @@ function ModulesEditor({id, handleCourseId}:{id?:number | null, handleCourseId:(
 function EditableRow({index, row}:{index:number, row?:{id?:number, course_id?: number | null, title?:string}}){
     const { register, handleSubmit } = useForm({defaultValues: { id:row?.id || '', course_id:row?.course_id, title:row?.title}});
 
-    const handleSave = (payload: any) => {
+    const handleSave = async (payload: any) => {
         console.log(payload);
+        if(payload?.id){
+            const { data } = await putAPI(`/teacher/modules/${payload?.id}`,{...payload})
+        } else {
+            const { data } = await postAPI(`/teacher/modules`,{...payload});
+        }
     }
 
     return (
