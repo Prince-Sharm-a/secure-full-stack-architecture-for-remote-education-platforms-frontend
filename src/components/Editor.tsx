@@ -2,10 +2,10 @@
 import "react-quill-new/dist/quill.snow.css";
 import dynamic from "next/dynamic";
 import { useForm } from "react-hook-form";
-import { useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import ImageUpload from "./ImageUpload";
 import { Button } from "./ui/button";
-import { Dot, Plus } from "lucide-react";
+import { ChevronDown, ChevronRight, Dot, Plus } from "lucide-react";
 import { getAPI, postAPI, putAPI } from "@/lib/apiCall";
 import { title } from "process";
 
@@ -23,7 +23,7 @@ export default function Editor({id}:{id?:number}){
         if(id){
             (async () => {
             const {data} = await getAPI(`/teacher/courses/${id}`);
-            console.log(data);
+            // console.log(data);
             setInitialData({
                 id: data?.id,
                 title: data?.title,
@@ -162,9 +162,23 @@ export default function Editor({id}:{id?:number}){
     )
 }
 
+type ModuleType = {
+    id : number,
+    course_id : number,
+    title : string
+}
+
 function ModulesEditor({id, handleCourseId}:{id?:number | null, handleCourseId:() => Promise<any>}){
-    const [ modules, setModules ] = useState([{id:1,course_id:1,title:'testing'}]);
+    const [ modules, setModules ] = useState<ModuleType[]>([]);
     const [ showCreate, setShowCreate ] = useState(false);
+
+    useEffect(()=>{
+        (async ()=>{
+            const { data } = await getAPI(`/courses/${id}/modules`);
+            // console.log(data);
+            setModules(data);
+        })()
+    },[id]);
 
     return (
         <div className="mt-4 flex flex-col">
@@ -176,10 +190,11 @@ function ModulesEditor({id, handleCourseId}:{id?:number | null, handleCourseId:(
                         finalCourseId = await handleCourseId();
                     }
                     if(finalCourseId){
-                        setShowCreate(true)
+                        setShowCreate(!showCreate)
                     }
                 }}>
-                    <Plus className="size-5 font-bold" /></Button>
+                    <Plus className="size-5 font-bold" />
+                </Button>
             </div>
             <div className="border-t border-x dark:border-t-white dark:border-x-white py-4 rounded-t-4xl text-center">
                 <table className="w-full ">
@@ -198,12 +213,12 @@ function ModulesEditor({id, handleCourseId}:{id?:number | null, handleCourseId:(
                     </thead>
                     <tbody>
                     { showCreate && (
-                        <EditableRow index={modules.length} row={{course_id:id}} />
+                        <ModuleEditableRow setShowCreate={setShowCreate}  setModules={setModules} index={modules?.length} row={{course_id:id}} />
                         )
                     }
                     {
                         modules && modules?.length > 0 && modules.map((e,i) => (
-                            <EditableRow key={e.id} index={i} row={(e)}/>
+                            <ModuleEditableRow setShowCreate={setShowCreate} setModules={setModules} key={e?.id} index={i} row={(e)}/>
                         ))
                     }
                     </tbody>
@@ -213,19 +228,31 @@ function ModulesEditor({id, handleCourseId}:{id?:number | null, handleCourseId:(
     )
 }
 
-function EditableRow({index, row}:{index:number, row?:{id?:number, course_id?: number | null, title?:string}}){
+function ModuleEditableRow({setShowCreate, setModules ,index, row}:{setShowCreate:(showCreate:boolean)=>void, setModules:React.Dispatch<React.SetStateAction<ModuleType[]>>, index:number, row?:{id?:number, course_id?: number | null, title?:string}}){
     const { register, handleSubmit } = useForm({defaultValues: { id:row?.id || '', course_id:row?.course_id, title:row?.title}});
+    const [ expand, setExpand ] = useState(false);
 
     const handleSave = async (payload: any) => {
-        console.log(payload);
+        // console.log(payload);
         if(payload?.id){
             const { data } = await putAPI(`/teacher/modules/${payload?.id}`,{...payload})
         } else {
             const { data } = await postAPI(`/teacher/modules`,{...payload});
+            setModules(prev => [...prev,data]);
+            setShowCreate(false);
+        }
+    }
+
+    const fetchLessons = async (module_id:number) => {
+        if(module_id){
+            const { data } = await getAPI(`/modules/${module_id}/lessons`);
+            console.log(data);
+            return data;
         }
     }
 
     return (
+        <>
         <tr>
             <td  className="w-[10%] text-xl">
                 {index+1}
@@ -241,9 +268,129 @@ function EditableRow({index, row}:{index:number, row?:{id?:number, course_id?: n
                 <Button className="bg-cyan-600 hidden" >Save</Button>
                 </form>
             </td>
-            <td className="w-[20%]">
-                <Button className="bg-cyan-600" onClick={handleSubmit(handleSave)} >Save</Button>
+            <td className="w-[20%] space-x-1">
+                <Button className="bg-cyan-600 text-xs h-8" onClick={handleSubmit(handleSave)} >Save</Button>
+                <Button className="" onClick={()=>setExpand(!expand)}  variant={'ghost'}>
+                    {
+                        !expand ? <ChevronRight /> : <ChevronDown />
+                    }
+                </Button>
             </td>
         </tr>
+        {
+            expand && (
+                <tr>
+                    <td className="w-full" colSpan={3}>
+                        {
+                            row?.id &&
+                            <LessonEditor module_id={row?.id} fetchLessons={fetchLessons} />
+                        }
+                    </td>
+                </tr>
+            )
+        }
+        </>
+    )
+}
+
+type LessonType = {
+    id : number,
+    module_id : number,
+    title : string
+}
+
+function LessonEditor({module_id, fetchLessons}:{module_id:number, fetchLessons:(module_id:number)=>Promise<LessonType[]>}){
+    const [ lessons, setLessons ] = useState<LessonType[]>([]);
+    const [ showCreate, setShowCreate ] = useState(false);
+
+    useEffect(()=>{
+        if(lessons) return;
+        (async ()=>{
+            const data = await fetchLessons(module_id);
+            console.log(data);
+            setLessons(data);
+        })()
+    },[])
+    return (
+        <>
+        <div className="border dark:border-white m-2 py-4 rounded-t-4xl text-center max-h-100 overflow-y-auto">
+            <table className="w-full">
+                <thead>
+                    <tr>
+                        <th className="w-[10%]">S no.</th>
+                        <th className="w-[50%]">Title</th>
+                        <th className="w-[35%]">Action</th>
+                        <th className="w-[5%]">
+                            <Button variant={'ghost'} className="cursor-pointer"
+                            onClick={()=>{
+                                if(module_id){
+                                    setShowCreate(!showCreate);
+                                }
+                            }}
+                            >
+                                <Plus className="size-5 font-bold" />
+                            </Button>
+                        </th>
+                    </tr>
+                </thead>
+                <tbody>
+                    { showCreate && (
+                        <LessonEditableRow setShowCreate={setShowCreate}  setLessons={setLessons} index={lessons?.length} row={{module_id:module_id}} />
+                        )
+                    }
+                    {
+                        lessons && lessons?.length > 0 && lessons.map((e,i) => (
+                            <LessonEditableRow setShowCreate={setShowCreate} setLessons={setLessons} key={e?.id} index={i} row={(e)}/>
+                        ))
+                    }
+                </tbody>
+            </table>
+        </div>
+        </>
+    )
+}
+
+function LessonEditableRow({setShowCreate, setLessons ,index, row}:{setShowCreate:(showCreate:boolean)=>void, setLessons:React.Dispatch<React.SetStateAction<LessonType[]>>, index:number, row?:{id?:number, module_id?: number | null, title?:string}}){
+    const { register, handleSubmit } = useForm({defaultValues: { id:row?.id || '', module_id:row?.module_id, title:row?.title}});
+    const [ expand, setExpand ] = useState(false);
+
+    const handleSave = async (payload: any) => {
+        // console.log(payload);
+        if(payload?.id){
+            const { data } = await putAPI(`/teacher/lessons/${payload?.id}`,{...payload})
+        } else {
+            const { data } = await postAPI(`/teacher/lessons`,{...payload});
+            setLessons(prev => [...prev,data]);
+            setShowCreate(false);
+        }
+    }
+    
+    return (
+        <>
+        <tr>
+            <td  className="w-[10%] text-xl">
+                {index+1}
+            </td>
+            <td className="w-[50%] px-4 py-2">
+                <form onSubmit={handleSubmit(handleSave)}>
+                {
+                    row?.id && <input {...register('id')} type="number" className="hidden" />
+
+                }
+                <input {...register(`module_id`)} type="number" className="hidden" />
+                <input {...register(`title`)} type="text" className="font-bold text-lg dark:bg-black border px-2 py-1 rounded-sm w-full" />
+                <Button className="bg-cyan-600 hidden" >Save</Button>
+                </form>
+            </td>
+            <td className="w-[40%] space-x-1" colSpan={2}>
+                <Button className="bg-cyan-600 text-xs h-8" onClick={handleSubmit(handleSave)} >Save</Button>
+                {/* <Button className="" onClick={()=>setExpand(!expand)}  variant={'ghost'}>
+                    {
+                        !expand ? <ChevronRight /> : <ChevronDown />
+                    }
+                </Button> */}
+            </td>
+        </tr>
+        </>
     )
 }

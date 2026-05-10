@@ -53,6 +53,7 @@ export default function ImageUpload({coverImage,setCoverImage} : {coverImage:str
     const [preview, setPreview] = useState<string>(coverImage ? coverImage : "");
     const [ loading, setLoading ] = useState(false);
     const [showCrop, setShowCrop] = useState(false);
+    console.log("image",preview);
 
     const handleImageChange= async (e: React.ChangeEvent<HTMLInputElement>)=>{
         const image = e.target.files?.[0];
@@ -111,7 +112,7 @@ export default function ImageUpload({coverImage,setCoverImage} : {coverImage:str
             <div className="w-full h-full relative">
                 <label className="cursor-pointer w-60">
                     <span 
-                    style={{backgroundImage:`${preview ? `url(${preview})` : 'none'}`,backgroundSize:"cover",backgroundPosition:"center"}} 
+                    style={{backgroundImage:`${preview ? preview : coverImage ? `url(${coverImage})` : 'none'}`,backgroundSize:"cover",backgroundPosition:"center"}} 
                     className="border flex gap-1 flex-wrap relative text-black text-[2vw] font-bold border-gray-400 border-dashed h-full bg-gray-500/8 dark:bg-mist-200/30 justify-center items-center rounded">
                         
                         {
