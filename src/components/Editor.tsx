@@ -3,9 +3,9 @@ import "react-quill-new/dist/quill.snow.css";
 import dynamic from "next/dynamic";
 import { useForm } from "react-hook-form";
 import React, { useEffect, useState } from "react";
-import ImageUpload from "./ImageUpload";
+import ImageUpload from "./upload/ImageUpload";
 import { Button } from "./ui/button";
-import { ChevronDown, ChevronRight, Dot, Plus } from "lucide-react";
+import { ChevronDown, ChevronRight, Dot, Plus, UploadIcon } from "lucide-react";
 import { getAPI, postAPI, putAPI } from "@/lib/apiCall";
 import { title } from "process";
 
@@ -78,7 +78,7 @@ export default function Editor({id}:{id?:number}){
 
     return (
         <div>
-            <div className="flex gap-4">
+            <div className="flex gap-4 mb-2">
                 <select 
                 className="font-bold text-xl dark:bg-black border px-3 py-2 rounded-sm ml-auto" 
                 disabled={status === 'rejected'} 
@@ -95,8 +95,8 @@ export default function Editor({id}:{id?:number}){
                 {
                     id && <input {...register('id')} className="hidden" />
                 }
-                <div className="grid md:grid-cols-3 h-full gap-4">
-                <div className="h-full relative">
+                <div className="grid md:grid-cols-3 h-full gap-4 grid-cols-1">
+                <div className="not-md:h-50 relative">
                     <ImageUpload coverImage={coverImage} setCoverImage={setCoverImage} />
                     <div className="ml-auto flex items-center absolute right-0 bottom-0 bg-gray-400/20 rounded-full"><Dot className={`${status === 'published' ? 'blink text-emerald-500' : status === 'rejected' ? 'blink text-red-500' : 'text-gray-400'}`} size={40} /></div>
                 </div>
@@ -119,13 +119,13 @@ export default function Editor({id}:{id?:number}){
                     </select>
                 </div>
                 </div>
-                <div className="md:grid md:grid-cols-2 space-x-4">                
-                <label htmlFor="price" className="text-2xl font-bold">Price
-                <input required {...register('price')} defaultValue={0} type="text" className="font-bold text-xl border px-3 py-2 rounded-sm w-full" placeholder="Enter Price..."/>
-                </label>
-                <label htmlFor="category" className="text-2xl font-bold">Category
-                <input required {...register('category')} type="text" className="font-bold text-xl border px-3 py-2 rounded-sm w-full" placeholder="Enter Category..."/>
-                </label>
+                <div className="grid grid-cols-2 space-x-4">                
+                    <label htmlFor="price" className="text-2xl font-bold">Price
+                    <input required {...register('price')} defaultValue={0} type="text" className="font-bold text-xl border px-3 py-2 rounded-sm w-full" placeholder="Enter Price..."/>
+                    </label>
+                    <label htmlFor="category" className="text-2xl font-bold">Category
+                    <input required {...register('category')} type="text" className="font-bold text-xl border px-3 py-2 rounded-sm w-full" placeholder="Enter Category..."/>
+                    </label>
                 </div>
                 </div>
                 </div>
@@ -173,6 +173,7 @@ function ModulesEditor({id, handleCourseId}:{id?:number | null, handleCourseId:(
     const [ showCreate, setShowCreate ] = useState(false);
 
     useEffect(()=>{
+        if(!id) return ;
         (async ()=>{
             const { data } = await getAPI(`/courses/${id}/modules`);
             // console.log(data);
@@ -203,10 +204,10 @@ function ModulesEditor({id, handleCourseId}:{id?:number | null, handleCourseId:(
                         <th className="w-[10%] ">
                             S no.
                         </th>
-                        <th className="w-[70%] ">
+                        <th className="w-[60%] ">
                             Title
                         </th>
-                        <th className="w-[20%] ">
+                        <th className="w-[30%] ">
                             Actions
                         </th>
                     </tr>
@@ -231,6 +232,7 @@ function ModulesEditor({id, handleCourseId}:{id?:number | null, handleCourseId:(
 function ModuleEditableRow({setShowCreate, setModules ,index, row}:{setShowCreate:(showCreate:boolean)=>void, setModules:React.Dispatch<React.SetStateAction<ModuleType[]>>, index:number, row?:{id?:number, course_id?: number | null, title?:string}}){
     const { register, handleSubmit } = useForm({defaultValues: { id:row?.id || '', course_id:row?.course_id, title:row?.title}});
     const [ expand, setExpand ] = useState(false);
+    const [ lessons, setLessons ] = useState<LessonType[]>([]);
 
     const handleSave = async (payload: any) => {
         // console.log(payload);
@@ -243,21 +245,13 @@ function ModuleEditableRow({setShowCreate, setModules ,index, row}:{setShowCreat
         }
     }
 
-    const fetchLessons = async (module_id:number) => {
-        if(module_id){
-            const { data } = await getAPI(`/modules/${module_id}/lessons`);
-            console.log(data);
-            return data;
-        }
-    }
-
     return (
         <>
         <tr>
             <td  className="w-[10%] text-xl">
                 {index+1}
             </td>
-            <td className="w-[70%] px-4 py-2">
+            <td className="w-[60%] px-4 py-2">
                 <form onSubmit={handleSubmit(handleSave)}>
                 {
                     row?.id && <input {...register('id')} type="number" className="hidden" />
@@ -268,7 +262,7 @@ function ModuleEditableRow({setShowCreate, setModules ,index, row}:{setShowCreat
                 <Button className="bg-cyan-600 hidden" >Save</Button>
                 </form>
             </td>
-            <td className="w-[20%] space-x-1">
+            <td className="w-[30%] space-x-1 text-nowrap">
                 <Button className="bg-cyan-600 text-xs h-8" onClick={handleSubmit(handleSave)} >Save</Button>
                 <Button className="" onClick={()=>setExpand(!expand)}  variant={'ghost'}>
                     {
@@ -283,7 +277,7 @@ function ModuleEditableRow({setShowCreate, setModules ,index, row}:{setShowCreat
                     <td className="w-full" colSpan={3}>
                         {
                             row?.id &&
-                            <LessonEditor module_id={row?.id} fetchLessons={fetchLessons} />
+                            <LessonEditor module_id={row?.id} lessons={lessons} setLessons={setLessons} />
                         }
                     </td>
                 </tr>
@@ -299,14 +293,13 @@ type LessonType = {
     title : string
 }
 
-function LessonEditor({module_id, fetchLessons}:{module_id:number, fetchLessons:(module_id:number)=>Promise<LessonType[]>}){
-    const [ lessons, setLessons ] = useState<LessonType[]>([]);
+function LessonEditor({module_id, lessons, setLessons }:{module_id:number, lessons:LessonType[], setLessons:React.Dispatch<React.SetStateAction<LessonType[]>> }){
     const [ showCreate, setShowCreate ] = useState(false);
 
     useEffect(()=>{
-        if(lessons) return;
+        if(lessons.length > 0) return;
         (async ()=>{
-            const data = await fetchLessons(module_id);
+            const { data } = await getAPI(`/modules/${module_id}/lessons`);
             console.log(data);
             setLessons(data);
         })()
@@ -382,8 +375,11 @@ function LessonEditableRow({setShowCreate, setLessons ,index, row}:{setShowCreat
                 <Button className="bg-cyan-600 hidden" >Save</Button>
                 </form>
             </td>
-            <td className="w-[40%] space-x-1" colSpan={2}>
-                <Button className="bg-cyan-600 text-xs h-8" onClick={handleSubmit(handleSave)} >Save</Button>
+            <td className="w-[40%] " colSpan={2}>
+                <div className="w-ful flex justify-center space-x-1">
+                    <Button className="text-xs h-8" variant={"outline"}><UploadIcon size={30} /></Button>
+                    <Button className="bg-cyan-600 text-xs h-8" onClick={handleSubmit(handleSave)} >Save</Button>
+                </div>
                 {/* <Button className="" onClick={()=>setExpand(!expand)}  variant={'ghost'}>
                     {
                         !expand ? <ChevronRight /> : <ChevronDown />
