@@ -49,7 +49,7 @@ export default async function RootLayout({children,}: Readonly<{children: React.
             <nav className="w-full flex flex-row sticky top-0">
               <Navbar />
             </nav>
-            <main className="px-2 w-full md:min-h-117 min-h-126 h-auto">
+            <main className="py-2 px-2 w-full min-h-screen h-auto ">
               {children}
             </main>
             <Toaster />

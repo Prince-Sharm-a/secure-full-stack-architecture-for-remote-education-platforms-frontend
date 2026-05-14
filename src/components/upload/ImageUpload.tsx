@@ -110,7 +110,7 @@ export default function ImageUpload({coverImage,setCoverImage} : {coverImage:str
     return (
         <div className="flex gap-x-4 h-full">
             <div className="w-full h-full relative">
-                <label className="cursor-pointer w-60 h-full">
+                <label className="cursor-pointer w-60 h-full ">
                     <span 
                     style={{backgroundImage:`${preview ? preview : coverImage ? `url(${coverImage})` : 'none'}`,backgroundSize:"cover",backgroundPosition:"center"}} 
                     className="border flex gap-1 flex-wrap relative text-black text-[2vw] font-bold border-gray-400 border-dashed h-full bg-gray-500/8 dark:bg-mist-200/30 justify-center items-center rounded">

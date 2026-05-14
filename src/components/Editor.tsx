@@ -95,8 +95,8 @@ export default function Editor({id}:{id?:number}){
                 {
                     id && <input {...register('id')} className="hidden" />
                 }
-                <div className="grid md:grid-cols-3 h-full gap-4 grid-cols-1">
-                <div className="not-md:h-50 relative">
+                <div className="grid md:grid-cols-3 h-full gap-4 grid-cols-1 px-1 w-full justify-items-center">
+                <div className="not-md:h-50 relative w-full">
                     <ImageUpload coverImage={coverImage} setCoverImage={setCoverImage} />
                     <div className="ml-auto flex items-center absolute right-0 bottom-0 bg-gray-400/20 rounded-full"><Dot className={`${status === 'published' ? 'blink text-emerald-500' : status === 'rejected' ? 'blink text-red-500' : 'text-gray-400'}`} size={40} /></div>
                 </div>
@@ -219,7 +219,7 @@ function ModulesEditor({id, handleCourseId}:{id?:number | null, handleCourseId:(
                     }
                     {
                         modules && modules?.length > 0 && modules.map((e,i) => (
-                            <ModuleEditableRow setShowCreate={setShowCreate} setModules={setModules} key={e?.id} index={i} row={(e)}/>
+                            <ModuleEditableRow setShowCreate={setShowCreate} setModules={setModules} key={e?.id} index={i} row={e}/>
                         ))
                     }
                     </tbody>
@@ -333,7 +333,7 @@ function LessonEditor({module_id, lessons, setLessons }:{module_id:number, lesso
                     }
                     {
                         lessons && lessons?.length > 0 && lessons.map((e,i) => (
-                            <LessonEditableRow setShowCreate={setShowCreate} setLessons={setLessons} key={e?.id} index={i} row={(e)}/>
+                            <LessonEditableRow setShowCreate={setShowCreate} setLessons={setLessons} key={e?.id} index={i} row={e}/>
                         ))
                     }
                 </tbody>

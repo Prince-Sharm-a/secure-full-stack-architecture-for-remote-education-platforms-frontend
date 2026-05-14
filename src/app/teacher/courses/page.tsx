@@ -33,7 +33,7 @@ export default function TeacherCourses() {
         </Link>
       </div>
 
-      <div className="grid lg:grid-cols-4 md:grid-cols-3 grid-cols-2 space-x-1 gap-2 w-full">
+      <div className="grid lg:grid-cols-4 md:grid-cols-3 grid-cols-2 space-x-1 gap-4 w-full h-auto">
         <Link href={`/teacher/courses/new`} className="not-md:hidden">
         <div
           className="dark:shadow-gray-700 not-md:hidden cursor-pointer p-5 rounded-xl flex justify-center items-center shadow hover:shadow-lg transition"
@@ -44,7 +44,7 @@ export default function TeacherCourses() {
         {data && data?.length > 0 && data.map((cls) => (
           <div
             key={cls?.id}
-            className="relative dark:shadow-gray-700 rounded-xl shadow hover:shadow-lg transition flex flex-col h-full not-md:group overflow-hidden"
+            className="relative dark:shadow-gray-700 rounded-xl shadow hover:shadow-lg transition flex flex-col h-full lg:h-100 not-md:group overflow-hidden"
           >
             <Link href={`/teacher/courses/${cls?.id}`} className="h-full">
               <div className="rounded-xl border overflow-hidden min-h-[65px] md:min-h-33 h-auto flex items-center shadow hover:shadow-lg transition dark:shadow-gray-700">

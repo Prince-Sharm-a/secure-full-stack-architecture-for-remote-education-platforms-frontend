@@ -9,12 +9,12 @@ export default function TeacherLayout({
 }) {
 
   return (
-    <div className="flex h-screen">
+    <div className="flex h-auto">
       
       <TeacherSidebar />
 
       {/* Main Content */}
-      <main className="flex-1 p-6 overflow-y-auto h-full">
+      <main className="flex-1 md:p-6 h-full ">
         {children}
       </main>
     </div>
