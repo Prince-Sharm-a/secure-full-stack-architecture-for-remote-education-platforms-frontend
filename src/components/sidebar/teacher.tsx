@@ -15,7 +15,7 @@ export default function TeacherSidebar() {
   ];
 
   return (
-    <div className="flex h-screen">
+    <div className="lg:flex h-auto hidden min-h-screen">
       
       {/* Sidebar */}
       <aside className="w-64 dark:shadow-gray-700 shadow-md p-5">

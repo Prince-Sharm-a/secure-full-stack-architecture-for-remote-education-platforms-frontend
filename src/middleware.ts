@@ -15,12 +15,6 @@ function getToken() {
 
 export async function middleware(req: NextRequest){
     const { pathname } = req.nextUrl;
-    // console.log('middleware running '+pathname);
-
-    // const requestHeaders = new Headers(req.headers)
-    // requestHeaders.set("x-log",pathname);
-    // requestHeaders.set("x-auth","false");
-    // requestHeaders.set("x-role","authorized");
     
     const matchedRoute = routeAccess.find(route => pathname.startsWith(route.path));
 
@@ -48,7 +42,6 @@ export async function middleware(req: NextRequest){
 
         if(matchedRoute){
             const role = data?.data?.role;
-            console.log(role);
             const authorized = role && matchedRoute.roles.includes(role);
             if(!authorized){
                 return NextResponse.redirect(new URL('/unauthorized', req.url));
