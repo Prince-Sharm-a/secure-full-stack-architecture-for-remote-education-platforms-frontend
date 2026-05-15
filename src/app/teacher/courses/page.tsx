@@ -38,7 +38,7 @@ export default function TeacherCourses() {
         <div
           className="dark:shadow-gray-700 not-md:hidden cursor-pointer p-5 rounded-xl flex justify-center items-center shadow hover:shadow-lg transition"
         >
-          <h2 className="text-[15vw] text-mist-400 dark:text-gray-600 font-extralight">+</h2>
+          <h2 className="text-[15vw] text-mist-400 hover:text-shadow-2xs dark:text-shadow-mist-400 text-shadow-gray-600 dark:text-gray-600 font-extralight">+</h2>
         </div>
         </Link>
         {data && data?.length > 0 && data.map((cls) => (
@@ -93,13 +93,17 @@ export default function TeacherCourses() {
                   }
                 `}>
                 <div className="flex gap-1 not-md:flex-col pb-2 px-2">
-                <Button className="flex-1 dark:border-blue-500 border-blue-500 text-xs px-1 py-1 whitespace-normal rounded cursor-pointer" variant={'outline'}>
-                  View Students
-                </Button>
-
-                <Button className="flex-1 dark:border-green-500 border-green-500 text-xs px-3 h-auto whitespace-normal py-1 rounded text-wrap cursor-pointer" variant={'outline'}>
-                  Add Assignment
-                </Button>
+                  <Link href={"/teacher/students"} className="flex-1">
+                  <Button className="w-full dark:border-blue-500 border-blue-500 text-xs px-1 py-1 whitespace-normal rounded cursor-pointer" variant={'outline'}>
+                    View Students
+                  </Button>
+                  </Link>
+                  
+                  <Link href={"/teacher/assignments"} className="flex-1">
+                  <Button className="w-full dark:border-green-500 border-green-500 text-xs px-3 whitespace-normal py-1 rounded cursor-pointer" variant={'outline'}>
+                    Add Assignment
+                  </Button>
+                  </Link>
                 </div>
               </div>
             </div>

@@ -1,13 +1,8 @@
 import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
-import { SidebarProvider } from "@/components/ui/sidebar";
-import { AppSidebar } from "@/components/sidebar";
-import Navbar from "@/components/navbar";
 import { ThemeProvider } from "@/components/ui/theme-provider";
-import Footer from "@/components/footer";
 import { AuthProvider } from "@/context";
-import { Toaster } from "sonner";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -24,7 +19,7 @@ export const metadata: Metadata = {
   description: "Education Platform. Learn, Whatever You Want To. Neet, Jee, Skills Development",
 };
 
-export default async function RootLayout({children,}: Readonly<{children: React.ReactNode;}>) {
+export default async function RootLayout({children}: Readonly<{children: React.ReactNode;}>) {
   // const headerStore = await headers();
   // const isAuth = headerStore.get("x-auth");
   // const isRole = headerStore.get("x-role");
@@ -41,23 +36,9 @@ export default async function RootLayout({children,}: Readonly<{children: React.
         enableSystem
         disableTransitionOnChange
         >
-        <div className="">
+        <div className="pt-2 w-full min-h-screen h-auto">
         <AuthProvider>
-        <SidebarProvider>
-          <AppSidebar />
-          <div className=" w-full">
-            <nav className="w-full flex flex-row sticky top-0">
-              <Navbar />
-            </nav>
-            <main className="py-2 px-2 w-full min-h-screen h-auto ">
-              {children}
-            </main>
-            <Toaster />
-            <footer className="w-full">
-              <Footer />
-            </footer>
-          </div>
-        </SidebarProvider>
+        {children}
         </AuthProvider>
         </div>
         </ThemeProvider>

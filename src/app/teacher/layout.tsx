@@ -1,6 +1,6 @@
 import React from "react";
-import Link from "next/link";
 import { TeacherSidebar } from "@/components/sidebar";
+import Footer from "@/components/footer";
 
 export default function TeacherLayout({
   children,
@@ -9,14 +9,19 @@ export default function TeacherLayout({
 }) {
 
   return (
-    <div className="flex h-auto">
-      
-      <TeacherSidebar />
+    <div className="w-full ">
+      <div className="flex h-auto gap-3">
+        
+        <TeacherSidebar />
 
-      {/* Main Content */}
-      <main className="flex-1 md:p-6 h-full ">
-        {children}
-      </main>
+        {/* Main Content */}
+        <main className="px-2 pb-2 min-h-screen w-full">
+          {children}
+        </main>
+      </div>
+      <footer className="w-full">
+        <Footer />
+      </footer>
     </div>
   );
 }
