@@ -46,7 +46,7 @@ export default function TeacherCourses() {
             key={cls?.id}
             className="relative dark:shadow-gray-700 rounded-xl shadow hover:shadow-lg transition flex flex-col h-full lg:h-100 not-md:group overflow-hidden"
           >
-            <Link href={`/teacher/courses/${cls?.id}`} className="h-full">
+            <Link href={`/teacher/courses/${cls?.id}?q=${cls?.title}`} className="h-full">
               <div className="rounded-xl border overflow-hidden min-h-[65px] md:min-h-33 h-auto flex items-center shadow hover:shadow-lg transition dark:shadow-gray-700">
                 { cls?.cover_image &&
                   <img src={cls?.cover_image} alt="no-image" className="w-full h-full"/>
@@ -93,13 +93,13 @@ export default function TeacherCourses() {
                   }
                 `}>
                 <div className="flex gap-1 not-md:flex-col pb-2 px-2">
-                  <Link href={"/teacher/students"} className="flex-1">
+                  <Link href={`/teacher/students?course_id=${cls.id}`} className="flex-1">
                   <Button className="w-full dark:border-blue-500 border-blue-500 text-xs px-1 py-1 whitespace-normal rounded cursor-pointer" variant={'outline'}>
                     View Students
                   </Button>
                   </Link>
                   
-                  <Link href={"/teacher/assignments"} className="flex-1">
+                  <Link href={`/teacher/assignments/${cls.id}`} className="flex-1">
                   <Button className="w-full dark:border-green-500 border-green-500 text-xs px-3 whitespace-normal py-1 rounded cursor-pointer" variant={'outline'}>
                     Add Assignment
                   </Button>
