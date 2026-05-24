@@ -1,11 +1,15 @@
-import { ParamsType } from "@/lib/type";
+import BackButton from "@/components/button/backButton";
+import CourseDetail from "@/components/courseDetail";
+import { ParamsType, SearchParamsType } from "@/lib/type";
 
-export default async function Pricing({ params } : ParamsType){
+export default async function Pricing({ params, searchParams }: ParamsType & SearchParamsType){
     const { slug } = await params;
-    // console.log(slug);
+    const { q } = await searchParams;
+
     return (
         <div>
-            Public Pricing { slug }
+            <BackButton title={`${q}`} />
+            <CourseDetail id={parseInt(slug)} />
         </div>
     )
 }

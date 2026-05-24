@@ -16,7 +16,6 @@ export default function DefaultRouteLayout({ children }: Readonly<{children: Rea
             <main className="py-2 px-2 w-full min-h-screen h-auto ">
               {children}
             </main>
-            <Toaster />
             <footer className="w-full">
               <Footer />
             </footer>

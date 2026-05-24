@@ -15,7 +15,7 @@ export default function TeacherLayout({
         <TeacherSidebar />
 
         {/* Main Content */}
-        <main className="px-2 pb-2 min-h-screen w-full">
+        <main className="px-2 py-2 min-h-screen w-full">
           {children}
         </main>
       </div>

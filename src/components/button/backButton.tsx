@@ -2,7 +2,7 @@
 
 import { useRouter } from "next/navigation";
 import { ArrowLeft } from "lucide-react";
-import { Button } from "./ui/button";
+import { Button } from "../ui/button";
 
 interface BackButtonProps {
   title?: string;
@@ -33,7 +33,7 @@ export default function BackButton({
       </Button>
 
       {title && (
-        <h1 className="text-xl font-semibold ">
+        <h1 className="text-xl font-semibold capitalize">
           {title}
         </h1>
       )}

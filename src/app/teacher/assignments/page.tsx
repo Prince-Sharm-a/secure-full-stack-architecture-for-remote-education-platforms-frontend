@@ -68,7 +68,7 @@ export default function TeacherAssignmentsPage() {
         <select 
         value={course_id ?? ""} 
         onChange={(e) => setCourseId(Number(e.target.value))}
-        className="font-bold text-xl dark:bg-black border px-3 py-2 rounded-sm ml-auto mr-2"
+        className="font-bold text-xl dark:bg-black border px-3 py-2 rounded-sm ml-auto mr-2 capitalize"
         >
           {
             courseOption && Object.entries(courseOption).map(([id,name]) => (
@@ -79,8 +79,8 @@ export default function TeacherAssignmentsPage() {
       </div>
 
       {/* Table */}
-      <div className="dark:shadow-gray-700 p-5 rounded-xl shadow">
-        <table className="w-full text-left">
+      <div className="dark:shadow-gray-700 p-5 rounded-xl shadow overflow-x-auto">
+        <table className="min-w-svh w-full text-center">
           <thead>
             <tr className="border-b text-gray-500">
               <th className="py-2">Title</th>
@@ -98,11 +98,11 @@ export default function TeacherAssignmentsPage() {
 
               return (
                 <tr key={a.id} className="border-b">
-                  <td className="py-3">{a.title}</td>
-                  <td>{a.courses.title}</td>
+                  <td className="py-3 capitalize">{a.title}</td>
+                  <td className="capitalize">{a.courses.title}</td>
                   <td>{`${new Date(a.due_date).getDate()}/${new Date(a.due_date).getMonth()+1}/${new Date(a.due_date).getFullYear()}`}</td>
 
-                  <td>
+                  <td className="">
                     {a.submission_count}/{a.courses.students_count}
                   </td>
 

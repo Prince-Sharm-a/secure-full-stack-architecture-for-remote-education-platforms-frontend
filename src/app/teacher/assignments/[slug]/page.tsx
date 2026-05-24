@@ -1,4 +1,4 @@
-import BackButton from "@/components/backButton";
+import BackButton from "@/components/button/backButton";
 import { ParamsType } from "@/lib/type";
 
 export default async function CreateAssignmentPage({ params }:ParamsType){

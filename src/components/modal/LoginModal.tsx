@@ -22,7 +22,11 @@ export default function LoginModal() {
         document.cookie = `token=${res.data?.token}; path=/; max-age=${60*60*24*10}`
         setIsLogin(true);
         setLoginOpen(false);
-        router.push(`/${res?.data?.user?.role}/dashboard`)
+        if(res?.data?.user?.role === 'dev'){
+          window.location.href = `/admin/dashboard`
+        } else {
+          window.location.href = `/${res?.data?.user?.role}/dashboard`;
+        }
       }
     } catch (error) {
       console.log("Login Error:",error);

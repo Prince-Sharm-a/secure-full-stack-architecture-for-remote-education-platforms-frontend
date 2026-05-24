@@ -1,4 +1,4 @@
-import BackButton from "@/components/backButton";
+import BackButton from "@/components/button/backButton";
 import Editor from "@/components/Editor";
 
 export default function NewCourse(){
