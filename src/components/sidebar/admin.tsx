@@ -2,6 +2,7 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
+import { ModeToggle } from "../ui/darkModeToggle";
 
 export default function AdminSidebar(   ) {
   const pathname = usePathname();
@@ -17,10 +18,10 @@ export default function AdminSidebar(   ) {
   ];
 
   return (
-    <div className="flex h-screen">
+    <div className="lg:flex h-auto hidden min-h-screen">
       
       {/* Sidebar */}
-      <aside className="w-64 dark:shadow-gray-700 shadow-md p-5 ">
+      <aside className="w-64 dark:shadow-gray-700 shadow-md p-5 h-full flex flex-col">
         <h2 className="text-xl font-bold mb-6">Admin Panel</h2>
 
         <ul className="space-y-2">
@@ -43,6 +44,9 @@ export default function AdminSidebar(   ) {
             );
           })}
         </ul>
+        <div className="flex mt-auto sticky bottom-3">
+          <ModeToggle />
+        </div>
       </aside>
     </div>
   );

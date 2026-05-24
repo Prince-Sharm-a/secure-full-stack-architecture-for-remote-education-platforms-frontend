@@ -2,6 +2,7 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
+import { ModeToggle } from "../ui/darkModeToggle";
 
 export default function StudentSidebar() {
   const pathname = usePathname();
@@ -15,7 +16,8 @@ export default function StudentSidebar() {
   ];
 
   return (
-    <aside className="w-64 dark:shadow-gray-700 shadow-md p-5">
+    <div className="lg:flex h-auto hidden min-h-screen">
+    <aside className="w-64 dark:shadow-gray-700 shadow-md p-5 h-full flex flex-col">
       <h2 className="text-xl font-bold mb-6">Student Panel</h2>
 
       <ul className="space-y-2">
@@ -38,6 +40,10 @@ export default function StudentSidebar() {
           );
         })}
       </ul>
+      <div className="flex mt-auto sticky bottom-3">
+        <ModeToggle />
+      </div>
     </aside>
+    </div>
   );
 }

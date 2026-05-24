@@ -10,7 +10,7 @@ export default function StudentLayout({ children }: { children: React.ReactNode 
         <StudentSidebar />
 
         {/* Main */}
-        <main className="flex-1 md:p-6 min-h-screen overflow-y-auto">
+        <main className="px-2 py-2 min-h-screen w-full">
           {children}
         </main>
       </div>

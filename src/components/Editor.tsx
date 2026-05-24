@@ -7,7 +7,6 @@ import ImageUpload from "./upload/ImageUpload";
 import { Button } from "./ui/button";
 import { ChevronDown, ChevronRight, Dot, Plus, UploadIcon } from "lucide-react";
 import { getAPI, postAPI, putAPI } from "@/lib/apiCall";
-import { title } from "process";
 
 const ReactQuill = dynamic(()=>import("react-quill-new"),{ssr:false});
 
@@ -102,7 +101,7 @@ export default function Editor({id}:{id?:number}){
                 </div>
                 <div className="col-span-2 space-y-4">
                 <label htmlFor="title" className="text-2xl font-bold">Title</label>
-                <input required {...register('title')} type="text" className="font-bold text-xl border px-3 py-2 rounded-sm w-full" placeholder="Enter The Post Title..."/>
+                <input required {...register('title')} type="text" className="capitalize font-bold text-xl border px-3 py-2 rounded-sm w-full" placeholder="Enter The Post Title..."/>
                 <div>
                 <label htmlFor="level" className="text-2xl font-bold">Level</label>
                 <div className="flex space-x-4 items-center px-2">

@@ -51,7 +51,7 @@ export default function Home() {
           </div>
         </div>
       </div>
-      <div className="flex flex-nowrap justify-center items-center flex-col my-15">
+      {/* <div className="flex flex-nowrap justify-center items-center flex-col my-15">
         <div className="bg-transparent lg:w-280 md:w-220 not-sm:w-80 rounded-md md:text-xl flex flex-row">
           <h4 className="font-bold text-2xl">Courses</h4>
           <div className="ml-auto">
@@ -66,8 +66,8 @@ export default function Home() {
           <div className="h-50 w-30 md:h-90 md:w-70 flex-none rounded-2xl border border-zinc-400"></div>
           <div className="h-50 w-30 md:h-90 md:w-70 flex-none rounded-2xl border border-zinc-400"></div>
         </div>
-      </div>
-      <div className="flex flex-nowrap justify-center items-center flex-col my-15">
+      </div> */}
+      {/* <div className="flex flex-nowrap justify-center items-center flex-col my-15">
         <div className="bg-transparent lg:w-280 md:w-220 not-sm:w-80 rounded-md md:text-xl flex flex-row">
           <h4 className="font-bold text-2xl">Must Explore</h4>
         </div>
@@ -85,8 +85,8 @@ export default function Home() {
             <h3 className="font-bold">Training Programs</h3>
           </Link>
         </div>
-      </div>
-      <div className="flex flex-nowrap justify-center items-center flex-col my-15">
+      </div> */}
+      {/* <div className="flex flex-nowrap justify-center items-center flex-col my-15">
         <div className="bg-transparent lg:w-280 md:w-220 not-sm:w-80 rounded-md md:text-xl flex flex-row">
           <h4 className="font-bold text-2xl">Explore</h4>
         </div>
@@ -110,7 +110,7 @@ export default function Home() {
             <h3 className="text-[2.5vw] font-bold">Class 12th</h3>
           </Link>
         </div>
-      </div>
+      </div> */}
     </div>
     
   );

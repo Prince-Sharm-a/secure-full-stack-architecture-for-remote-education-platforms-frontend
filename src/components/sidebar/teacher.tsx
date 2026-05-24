@@ -1,6 +1,7 @@
 "use client";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
+import { ModeToggle } from "../ui/darkModeToggle";
 
 export default function TeacherSidebar() {
   const pathname = usePathname();
@@ -18,29 +19,36 @@ export default function TeacherSidebar() {
     <div className="lg:flex h-auto hidden min-h-screen">
       
       {/* Sidebar */}
-      <aside className="w-64 dark:shadow-gray-700 shadow-md p-5">
-        <h2 className="text-xl font-bold mb-6">Teacher Panel</h2>
+      <aside className="w-64 dark:shadow-gray-700 shadow-md p-5 h-full flex flex-col">
+        <div>
+          <h2 className="text-xl font-bold mb-6">Teacher Panel</h2>
+        </div>
 
-        <ul className="space-y-2">
-          {navItems.map((item) => {
-            const isActive = pathname.startsWith(item.path);
+        <div>
+          <ul className="space-y-2">
+            {navItems.map((item) => {
+              const isActive = pathname.startsWith(item.path);
 
-            return (
-              <li key={item.path}>
-                <Link
-                  href={item.path}
-                  className={`block px-3 py-2 rounded transition ${
-                    isActive
-                      ? "bg-green-500 text-white border-l-4 border-green-700"
-                      : "hover:bg-gray-200 dark:hover:bg-gray-700"
-                  }`}
-                >
-                  {item.name}
-                </Link>
-              </li>
-            );
-          })}
-        </ul>
+              return (
+                <li key={item.path}>
+                  <Link
+                    href={item.path}
+                    className={`block px-3 py-2 rounded transition ${
+                      isActive
+                        ? "bg-green-500 text-white border-l-4 border-green-700"
+                        : "hover:bg-gray-200 dark:hover:bg-gray-700"
+                    }`}
+                  >
+                    {item.name}
+                  </Link>
+                </li>
+              );
+            })}
+          </ul>
+        </div>
+        <div className="flex mt-auto sticky bottom-3">
+          <ModeToggle />
+        </div>
       </aside>
     </div>
   );

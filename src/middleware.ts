@@ -1,9 +1,9 @@
 import { NextResponse, NextRequest } from "next/server";
 
 const routeAccess = [
-    {path: "/admin", roles: ["admin"]},
-    {path: "/teacher", roles: ["teacher","admin"]},
-    {path: "/student", roles: ["admin","teacher","student"]},
+    {path: "/admin", roles: ["admin","dev"]},
+    {path: "/teacher", roles: ["teacher","dev"]},
+    {path: "/student", roles: ["dev","student"]},
 ];
 
 function getToken() {

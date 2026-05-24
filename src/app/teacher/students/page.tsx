@@ -1,41 +1,54 @@
 "use client";
 
-import React, { useState } from "react";
+import { Button } from "@/components/ui/button";
+import { getAPI } from "@/lib/apiCall";
+import { Eye, Pencil, Trash2 } from "lucide-react";
+import React, { useEffect, useState } from "react";
 
 type Student = {
   id: number;
   name: string;
   roll: string;
   email: string;
-  attendance: number;
+  phone: string;
+  attendance?: number;
 };
 
 export default function TeacherStudentsPage() {
-  const [students, setStudents] = useState<Student[]>([
-    {
-      id: 1,
-      name: "Rahul Sharma",
-      roll: "BCA001",
-      email: "rahul@example.com",
-      attendance: 85,
-    },
-    {
-      id: 2,
-      name: "Anjali Verma",
-      roll: "BCA002",
-      email: "anjali@example.com",
-      attendance: 72,
-    },
-    {
-      id: 3,
-      name: "Amit Kumar",
-      roll: "BCA003",
-      email: "amit@example.com",
-      attendance: 60,
-    },
-  ]);
-
+  const [students, setStudents] = useState<Student[]>([]);
+  const [ courseOption, setCourseOption ] = useState<Record<number, string>>({});
+  const [ course_id, setCourseId ] = useState<null | number>();
   const [search, setSearch] = useState("");
+
+  useEffect(()=>{
+    (async () => {
+      await fetchCourseList();
+    })()
+  },[]);
+
+  useEffect(()=>{
+    if(course_id){
+      fetchStudents();
+    }
+  },[course_id]);
+
+  const fetchCourseList = async ()=>{
+  const { data } = await getAPI(`/teacher/coursesList`);
+  setCourseOption(data);
+
+  // get first key
+  const firstCourseId = Number(Object.keys(data)[0]);
+
+  setCourseId(firstCourseId);
+}
+
+  const fetchStudents = async () => {
+    if(!course_id) return ;
+    
+    const { data } = await getAPI(`/teacher/students/${course_id}`);
+    console.log(data)
+    setStudents(data);
+  }
 
   const filteredStudents = students.filter((s) =>
     s.name.toLowerCase().includes(search.toLowerCase())
@@ -43,10 +56,12 @@ export default function TeacherStudentsPage() {
 
   return (
     <div>
-      <h1 className="text-2xl font-bold mb-6">Students</h1>
+      <div className="flex">
+        <h1 className="text-2xl font-bold mb-6">Students</h1>
+      </div>
 
       {/* Search */}
-      <div className="mb-4">
+      <div className="mb-4 flex space-x-3">
         <input
           type="text"
           placeholder="Search students..."
@@ -54,6 +69,17 @@ export default function TeacherStudentsPage() {
           onChange={(e) => setSearch(e.target.value)}
           className="border p-2 rounded w-full"
         />
+        <select 
+        value={course_id ?? ""} 
+        onChange={(e) => setCourseId(Number(e.target.value))}
+        className="font-bold text-xl dark:bg-black border px-3 py-2 rounded-sm ml-auto mr-2 capitalize"
+        >
+          {
+            courseOption && Object.entries(courseOption).map(([id,name]) => (
+              <option key={id} value={id}>{name}</option>
+            ))
+          }
+        </select>
       </div>
 
       {/* Table */}
@@ -64,7 +90,8 @@ export default function TeacherStudentsPage() {
               <th className="py-2">Name</th>
               <th>Roll No</th>
               <th>Email</th>
-              <th>Attendance</th>
+              {/* <th>Attendance</th> */}
+              <th>Phone no.</th>
               <th>Actions</th>
             </tr>
           </thead>
@@ -76,28 +103,29 @@ export default function TeacherStudentsPage() {
                 <td>{s.roll}</td>
                 <td>{s.email}</td>
 
-                <td
+                {/* <td
                   className={
-                    s.attendance >= 75
+                    s?.attendance >= 75
                       ? "text-green-600"
                       : "text-red-500"
                   }
                 >
                   {s.attendance}%
-                </td>
+                </td> */}
+                <td>{s.phone}</td>
 
                 <td className="space-x-2">
-                  <button className="bg-blue-500 text-white px-3 py-1 rounded">
-                    View
-                  </button>
+                  <Button className="bg-blue-500 text-white px-3 py-1 rounded">
+                      <Eye />
+                    </Button>
 
-                  <button className="bg-green-500 text-white px-3 py-1 rounded">
-                    Message
-                  </button>
+                    <Button className="bg-yellow-500 text-white px-3 py-1 rounded">
+                      <Pencil />
+                    </Button>
 
-                  <button className="bg-purple-500 text-white px-3 py-1 rounded">
-                    Results
-                  </button>
+                    <Button className="bg-red-500 text-white px-3 py-1 rounded">
+                      <Trash2 />
+                    </Button>
                 </td>
               </tr>
             ))}

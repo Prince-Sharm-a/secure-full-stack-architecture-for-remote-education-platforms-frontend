@@ -7,6 +7,7 @@ export type ParamsType = {
 export type SearchParamsType = {
     searchParams : {
         q?: string
+        course_id?:number
     }
 }
 
@@ -23,4 +24,16 @@ export type ProductType ={
 
 export type ProdcutBoxPropsType ={
     products: ProductType[]
+}
+
+export interface MenuItem {
+  label: string;
+  path?: string;
+  href?: string;
+  roles: string[];
+}
+
+export interface MenuGroup {
+  category: string;
+  items: MenuItem[];
 }

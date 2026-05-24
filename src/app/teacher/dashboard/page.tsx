@@ -4,7 +4,7 @@ export default function TeacherDashboard() {
     <div className="flex h-screen">
 
       {/* Main */}
-      <section className="flex-1 p-6 overflow-y-auto">
+      <section className="flex-1 overflow-y-auto">
         
         {/* Topbar */}
         <div className="flex justify-between items-center mb-6">

@@ -3,6 +3,8 @@ import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 import { ThemeProvider } from "@/components/ui/theme-provider";
 import { AuthProvider } from "@/context";
+import { Toaster } from "sonner";
+import Script from "next/script";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -36,9 +38,14 @@ export default async function RootLayout({children}: Readonly<{children: React.R
         enableSystem
         disableTransitionOnChange
         >
-        <div className="pt-2 w-full min-h-screen h-auto">
+        <div className="w-full min-h-screen h-auto">
         <AuthProvider>
         {children}
+        <Toaster />
+        <Script
+          src="https://checkout.razorpay.com/v1/checkout.js"
+          strategy="lazyOnload"
+        />
         </AuthProvider>
         </div>
         </ThemeProvider>
