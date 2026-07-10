@@ -1,38 +1,120 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Secure Full Stack Architecture for Remote Education Platforms Frontend
+
+## Overview
+
+This project is the frontend for a remote education platform called Edducator. It is built with Next.js and provides a public learning marketplace together with separate experiences for admins, teachers, and students.
+
+The app is designed around a secure, role-based workflow:
+
+- Visitors can discover courses and use the homepage search experience.
+- Teachers can manage courses, assignments, attendance, grades, and student-related work.
+- Students can view their dashboard, courses, assignments, attendance, and results.
+- Admins can manage users, subjects, assignments, reports, and platform settings.
+
+The app also integrates authentication, dark mode, rich content editing, image and video upload flows, Supabase, and Razorpay checkout.
+
+## Key Features
+
+- Public landing page with search and course discovery.
+- Separate dashboards for admin, teacher, and student roles.
+- Route-based layouts and navigation tailored to each role.
+- Authentication state handled through a client-side auth context.
+- Theme switching with light and dark mode support.
+- Payment support through Razorpay checkout.
+- UI building blocks for modals, cards, buttons, sidebars, uploads, and editors.
+
+## Tech Stack
+
+- Next.js 16 with the App Router.
+- React 19 and TypeScript.
+- Tailwind CSS 4 for styling.
+- Supabase client for backend services.
+- Sonner for toast notifications.
+- Radix UI, Lucide icons, and Shadcn-style UI components.
+- React Hook Form, React Quill, and react-easy-crop for interactive forms and content workflows.
+
+## Project Structure
+
+- `src/app/(public)` contains the public-facing homepage, course pages, and contact page.
+- `src/app/admin` contains admin dashboard pages.
+- `src/app/teacher` contains teacher dashboard pages.
+- `src/app/student` contains student dashboard pages.
+- `src/components` contains reusable UI, cards, modals, sidebars, uploads, and navigation.
+- `src/context` contains authentication context.
+- `src/lib` contains API helpers, types, Supabase setup, and utilities.
+
+## Main Routes
+
+- Public pages: `/`, `/courses`, `/courses/[slug]`, `/contact`
+- Admin pages: `/admin/dashboard`, `/admin/users`, `/admin/courses`, `/admin/subjects`, `/admin/assignments`, `/admin/reports`, `/admin/settings`
+- Teacher pages: `/teacher/dashboard`, `/teacher/courses`, `/teacher/courses/new`, `/teacher/courses/[slug]`, `/teacher/assignments`, `/teacher/assignments/[slug]`, `/teacher/attendance`, `/teacher/grades`, `/teacher/students`
+- Student pages: `/student/dashboard`, `/student/courses`, `/student/assignments`, `/student/attendance`, `/student/results`
+- Authentication and access control pages are grouped under `src/app/(auth)` and `src/app/unauthorized`
 
 ## Getting Started
 
-First, run the development server:
+### Prerequisites
+
+- Node.js 18 or newer.
+- npm, pnpm, yarn, or bun.
+
+### Install dependencies
+
+```bash
+npm install
+```
+
+### Run the development server
 
 ```bash
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Open `http://localhost:3000` in your browser.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+### Build for production
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+```bash
+npm run build
+```
 
-## Learn More
+### Start the production server
 
-To learn more about Next.js, take a look at the following resources:
+```bash
+npm run start
+```
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+### Lint the codebase
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+```bash
+npm run lint
+```
 
-## Deploy on Vercel
+## Environment Variables
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+Create a `.env` file with the required values for your local or deployed backend and third-party integrations.
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
-# secure-full-stack-architecture-for-remote-education-platforms-frontend
+- `NEXT_PUBLIC_FRONTEND_URL`
+- `NEXT_PUBLIC_BACKEND_URL`
+- `GOOGLE_CLIENT_ID`
+- `GOOGLE_CLIENT_SECRET`
+- `NEXT_PUBLIC_SUPABASE_URL`
+- `NEXT_PUBLIC_SUPABASE_ANON_KEY`
+- `NEXT_PUBLIC_TOKEN`
+- `NEXT_PUBLIC_ROZARPAY_KEY_ID`
+- `NEXT_PUBLIC_ROZARPAY_SECRET`
 
+Keep secrets private and do not commit real production credentials.
+
+## Notes
+
+- The application uses a root theme provider and auth provider in the main layout.
+- Razorpay checkout is loaded globally in the app shell.
+- The admin, teacher, and student areas each have their own sidebar and page layout.
+- The current UI includes a public landing page focused on search and course exploration.
+
+## Deployment
+
+The app is ready to be deployed as a standard Next.js frontend, for example on Vercel or any platform that supports Node.js applications.
+
+#### https://secure-full-stack-architecture-for.vercel.app
