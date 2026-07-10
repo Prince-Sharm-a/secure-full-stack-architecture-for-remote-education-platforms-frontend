@@ -20,7 +20,7 @@ export default function BuyCourseButton({
 
     try {
 
-      // STEP 1: CREATE ORDER
+      // CREATE ORDER
 
       const orderResponse = await postAPI('/create-order',{course_id: courseId,});
 
@@ -36,24 +36,20 @@ export default function BuyCourseButton({
         window.location.href = "/student/courses";
       }
 
-      // STEP 2: OPEN RAZORPAY
+      // OPEN RAZORPAY
 
       const options = {
         key: process.env.NEXT_PUBLIC_ROZARPAY_KEY_ID,
 
         amount: order.amount,
-
         currency: order.currency,
-
         name: "Edducator",
-
         description: courseTitle,
-
         order_id: order.id,
 
         handler: async function (response: any) {
 
-          // STEP 3: VERIFY PAYMENT
+          // VERIFY PAYMENT
           const payload = {
                 razorpay_order_id: response.razorpay_order_id,
                 razorpay_payment_id: response.razorpay_payment_id,
