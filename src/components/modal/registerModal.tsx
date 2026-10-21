@@ -99,7 +99,7 @@ export default function RegisterModal() {
     const top = (window.innerHeight - height) / 2;
 
     const googleLoginWindow = window.open(
-      `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/auth/google`,
+      `${process.env.NEXT_PUBLIC_BACKEND_URL}/auth/google`,
       "Google Login",
       `width=${width},height=${height},top=${top},left=${left}`
     );
