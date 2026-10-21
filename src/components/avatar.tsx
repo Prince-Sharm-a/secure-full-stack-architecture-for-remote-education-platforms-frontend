@@ -38,11 +38,13 @@ export function DropdownMenuAvatar() {
   const handleLogout = async () => {
     try {
       const res = await getAPIClient('/auth/logout');
-      if(res?.data?.role){
+      if(res?.success){
         localStorage.removeItem('token');
+        document.cookie = `token=; path=/; max-age=0`;
         setUser(undefined);
         setIsLogin(false);
-        router.refresh();
+        window.location.reload();
+        console.log('User logged out');
       }
     } catch (error){
       console.error(error);
@@ -72,7 +74,7 @@ export function DropdownMenuAvatar() {
           Settings
         </DropdownMenuItem>
         <DropdownMenuSeparator />
-        <DropdownMenuItem variant="destructive" onClick={handleLogout}>
+        <DropdownMenuItem variant="destructive" className="cursor-pointer" onClick={handleLogout}>
           <LogOutIcon />
           Log out
         </DropdownMenuItem>
