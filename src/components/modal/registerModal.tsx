@@ -48,6 +48,63 @@ export default function RegisterModal() {
     setRegisterOpen(false)
   }
 
+  useEffect(()=>{
+    const handleMessage = async (event: MessageEvent) => {
+      if (event.origin !== process.env.NEXT_PUBLIC_BACKEND_URL) {
+        return;
+      }
+      if (event.data?.type === 'Google_AUTH_SUCCESS') {
+        return;
+      }
+      const code = event.data?.code;
+
+      const response = await fetch(
+            `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/auth/oauth/exchange`,
+            {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                    Accept: "application/json",
+                },
+                body: JSON.stringify({
+                    code,
+                }),
+            }
+        );
+
+        const data = await response.json();
+        
+        console.log(data);
+
+        if (data?.token) {
+            localStorage.setItem('token',data?.token);
+            document.cookie = `token=${data?.token}; path=/; max-age=${60*60*24*10}`
+            setIsLogin(true);
+            setLoginOpen(false);
+        }
+        window.location.reload();
+    }
+
+    window.addEventListener('message',handleMessage);
+
+    return () => {
+      window.removeEventListener('message',handleMessage);
+    }
+  })
+
+  const handleGoogleLogin = () => {
+    const width = 500;
+    const height = 600;
+    const left = (window.innerWidth - width) / 2;
+    const top = (window.innerHeight - height) / 2;
+
+    const googleLoginWindow = window.open(
+      `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/auth/google`,
+      "Google Login",
+      `width=${width},height=${height},top=${top},left=${left}`
+    );
+  }
+
   return (
     <>
       {/* <Button
@@ -82,7 +139,7 @@ export default function RegisterModal() {
                 </p>
             </div>
 
-            <Button className="font-bold mb-4 w-full cursor-pointer"><GoogleIcon /> Continue with Google</Button>
+            <Button className="font-bold mb-4 w-full cursor-pointer" onClick={handleGoogleLogin}><GoogleIcon /> Continue with Google</Button>
 
             {/* Email */}
             <form onSubmit={handleSubmit(registerHandle, onError)}>
